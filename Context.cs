@@ -15,5 +15,13 @@ namespace Booking_system
         public DbSet<Reservation> Reservations;
         public DbSet<Room> Rooms;
 
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder
+                .Configurations.Add(new Administrator.AdministratorConfiguration());
+            modelBuilder
+                .Configurations.Add(new User.UserConfiguration());
+        }
     }
+
 }

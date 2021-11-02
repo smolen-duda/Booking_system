@@ -27,5 +27,16 @@ namespace Booking_system
             WindowState = FormWindowState.Minimized;
         }
 
+        private void NewAccount_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            NewAccount newAccount = new NewAccount();
+            newAccount.Show();
+            
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

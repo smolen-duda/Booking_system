@@ -36,7 +36,7 @@ namespace Booking_system
             this.button2 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.NewAccount = new System.Windows.Forms.LinkLabel();
             this.SuspendLayout();
             // 
             // Close1
@@ -88,6 +88,7 @@ namespace Booking_system
             this.button2.TabIndex = 3;
             this.button2.Text = "User";
             this.button2.UseVisualStyleBackColor = false;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // label1
             // 
@@ -112,16 +113,17 @@ namespace Booking_system
             this.label2.TabIndex = 5;
             this.label2.Text = "Or create";
             // 
-            // linkLabel1
+            // NewAccount
             // 
-            this.linkLabel1.AutoSize = true;
-            this.linkLabel1.BackColor = System.Drawing.Color.Transparent;
-            this.linkLabel1.Location = new System.Drawing.Point(616, 400);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(92, 20);
-            this.linkLabel1.TabIndex = 6;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "new account";
+            this.NewAccount.AutoSize = true;
+            this.NewAccount.BackColor = System.Drawing.Color.Transparent;
+            this.NewAccount.Location = new System.Drawing.Point(616, 400);
+            this.NewAccount.Name = "NewAccount";
+            this.NewAccount.Size = new System.Drawing.Size(92, 20);
+            this.NewAccount.TabIndex = 6;
+            this.NewAccount.TabStop = true;
+            this.NewAccount.Text = "new account";
+            this.NewAccount.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.NewAccount_LinkClicked);
             // 
             // Form1
             // 
@@ -129,7 +131,7 @@ namespace Booking_system
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(1196, 723);
-            this.Controls.Add(this.linkLabel1);
+            this.Controls.Add(this.NewAccount);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button2);
@@ -138,6 +140,7 @@ namespace Booking_system
             this.Controls.Add(this.Close1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Booking system";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -152,7 +155,7 @@ namespace Booking_system
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.LinkLabel NewAccount;
     }
 }
 
