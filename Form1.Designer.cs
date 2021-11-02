@@ -30,7 +30,7 @@ namespace Booking_system
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            this.Close = new System.Windows.Forms.Button();
+            this.Close1 = new System.Windows.Forms.Button();
             this.Minimalize = new System.Windows.Forms.Button();
             this.Admin = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
@@ -39,18 +39,18 @@ namespace Booking_system
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.SuspendLayout();
             // 
-            // Close
+            // Close1
             // 
-            this.Close.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.Close.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.Close.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.Close.Location = new System.Drawing.Point(1156, 12);
-            this.Close.Name = "Close";
-            this.Close.Size = new System.Drawing.Size(33, 30);
-            this.Close.TabIndex = 0;
-            this.Close.Text = "x\r\n";
-            this.Close.UseVisualStyleBackColor = false;
-            this.Close.Click += new System.EventHandler(this.Close_Click);
+            this.Close1.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.Close1.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.Close1.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.Close1.Location = new System.Drawing.Point(1156, 12);
+            this.Close1.Name = "Close1";
+            this.Close1.Size = new System.Drawing.Size(33, 30);
+            this.Close1.TabIndex = 0;
+            this.Close1.Text = "x\r\n";
+            this.Close1.UseVisualStyleBackColor = false;
+            this.Close1.Click += new System.EventHandler(this.Close_Click);
             // 
             // Minimalize
             // 
@@ -135,7 +135,7 @@ namespace Booking_system
             this.Controls.Add(this.button2);
             this.Controls.Add(this.Admin);
             this.Controls.Add(this.Minimalize);
-            this.Controls.Add(this.Close);
+            this.Controls.Add(this.Close1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Form1";
             this.Text = "Booking system";
@@ -146,7 +146,7 @@ namespace Booking_system
 
         #endregion
 
-        private System.Windows.Forms.Button Close;
+        private System.Windows.Forms.Button Close1;
         private System.Windows.Forms.Button Minimalize;
         private System.Windows.Forms.Button Admin;
         private System.Windows.Forms.Button button2;
