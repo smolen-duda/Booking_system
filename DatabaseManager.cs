@@ -27,7 +27,7 @@ namespace Booking_system
                 var userDatabase = user;
                 try
                 {
-                    db.Set(accountType).Where("ID=id").First();
+                    userDatabase=db.Set(accountType).Where("ID=@0",id).First();
                 }
                 catch(Exception e)
                 {
@@ -59,6 +59,7 @@ namespace Booking_system
                 }
             }
         }
+
 
     }
 }

@@ -6,20 +6,16 @@ using System.Threading.Tasks;
 
 namespace Booking_system
 {
-    public class Authentication
+    public static class Authentication
     {
-        // Data provided by the person who wants to log in.
-        private readonly ILogable _userToLogIn;
-
-        public Authentication(ILogable userToLogIn)
+        static Authentication()
         {
-            _userToLogIn = userToLogIn;
         }
 
 
-        public string Login()
+        public static string Login(ILogable userToLogIn)
         {
-            var isAuthenticated = _userToLogIn.Login(_userToLogIn); ;
+            var isAuthenticated = userToLogIn.Login(); ;
 
             if (!isAuthenticated)
                 return "User or password is incorrect.";

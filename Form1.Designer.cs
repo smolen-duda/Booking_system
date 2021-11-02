@@ -32,11 +32,11 @@ namespace Booking_system
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.Close1 = new System.Windows.Forms.Button();
             this.Minimalize = new System.Windows.Forms.Button();
-            this.Admin = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.AdminSign = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.NewAccount = new System.Windows.Forms.LinkLabel();
+            this.UserSign = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // Close1
@@ -64,31 +64,18 @@ namespace Booking_system
             this.Minimalize.UseVisualStyleBackColor = false;
             this.Minimalize.Click += new System.EventHandler(this.Minimalize_Click);
             // 
-            // Admin
+            // AdminSign
             // 
-            this.Admin.BackColor = System.Drawing.Color.Tan;
-            this.Admin.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.Admin.Font = new System.Drawing.Font("Segoe UI", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.Admin.ImageKey = "(brak)";
-            this.Admin.Location = new System.Drawing.Point(658, 314);
-            this.Admin.Name = "Admin";
-            this.Admin.Size = new System.Drawing.Size(155, 62);
-            this.Admin.TabIndex = 2;
-            this.Admin.Text = "Administrator";
-            this.Admin.UseVisualStyleBackColor = false;
-            // 
-            // button2
-            // 
-            this.button2.BackColor = System.Drawing.Color.Tan;
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button2.Font = new System.Drawing.Font("Segoe UI", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.button2.Location = new System.Drawing.Point(436, 314);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(155, 62);
-            this.button2.TabIndex = 3;
-            this.button2.Text = "User";
-            this.button2.UseVisualStyleBackColor = false;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.AdminSign.BackColor = System.Drawing.Color.Tan;
+            this.AdminSign.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.AdminSign.Font = new System.Drawing.Font("Segoe UI", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.AdminSign.ImageKey = "(brak)";
+            this.AdminSign.Location = new System.Drawing.Point(658, 314);
+            this.AdminSign.Name = "AdminSign";
+            this.AdminSign.Size = new System.Drawing.Size(155, 62);
+            this.AdminSign.TabIndex = 2;
+            this.AdminSign.Text = "Administrator";
+            this.AdminSign.UseVisualStyleBackColor = false;
             // 
             // label1
             // 
@@ -125,17 +112,30 @@ namespace Booking_system
             this.NewAccount.Text = "new account";
             this.NewAccount.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.NewAccount_LinkClicked);
             // 
+            // UserSign
+            // 
+            this.UserSign.BackColor = System.Drawing.Color.Tan;
+            this.UserSign.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.UserSign.Font = new System.Drawing.Font("Segoe UI", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.UserSign.Location = new System.Drawing.Point(434, 314);
+            this.UserSign.Name = "UserSign";
+            this.UserSign.Size = new System.Drawing.Size(155, 62);
+            this.UserSign.TabIndex = 7;
+            this.UserSign.Text = "User";
+            this.UserSign.UseVisualStyleBackColor = false;
+            this.UserSign.Click += new System.EventHandler(this.UserSign_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(1196, 723);
+            this.Controls.Add(this.UserSign);
             this.Controls.Add(this.NewAccount);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.Admin);
+            this.Controls.Add(this.AdminSign);
             this.Controls.Add(this.Minimalize);
             this.Controls.Add(this.Close1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -151,11 +151,11 @@ namespace Booking_system
 
         private System.Windows.Forms.Button Close1;
         private System.Windows.Forms.Button Minimalize;
-        private System.Windows.Forms.Button Admin;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button AdminSign;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.LinkLabel NewAccount;
+        private System.Windows.Forms.Button UserSign;
     }
 }
 

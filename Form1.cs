@@ -34,8 +34,10 @@ namespace Booking_system
             
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void UserSign_Click(object sender, EventArgs e)
         {
+            UserLog userLog = new UserLog();
+            userLog.Show();
 
         }
     }

@@ -13,6 +13,6 @@ namespace Booking_system
 
         public string GetPassword();
 
-        public bool Login(ILogable user);
+        public bool Login();
     }
 }
