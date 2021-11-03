@@ -13,14 +13,14 @@ namespace Booking_system
         }
 
 
-        public static string Login(ILogable userToLogIn)
+        public static bool Login(ILogable userToLogIn)
         {
             var isAuthenticated = userToLogIn.Login(); ;
 
             if (!isAuthenticated)
-                return "User or password is incorrect.";
+                return false;
 
-            return "Success";
+            return true;
 
         }
     }

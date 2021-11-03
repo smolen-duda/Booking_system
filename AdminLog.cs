@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace Booking_system
 {
-    public partial class UserLog : Form
+    public partial class AdminLog : Form
     {
-        public UserLog()
+        public AdminLog()
         {
             InitializeComponent();
         }
@@ -39,22 +39,22 @@ namespace Booking_system
             }
             else
             {
-                User user = new User() { ID = IDBox.Text };
-                user.SetPassword(PassBox.Text);
+                Administrator admin = new Administrator() { ID = IDBox.Text };
+                admin.SetPassword(PassBox.Text);
 
-                bool authentication = Authentication.Login(user);
+                bool authentication = Authentication.Login(admin);
 
                 if (!authentication)
                 {
-                    MessageLabel.Text = "User or password is incorrect.";
+                    MessageLabel.Text = "ID or password is incorrect.";
                 }
                 else
                 {
-                    BookingForm bookingForm = new BookingForm();
-                    bookingForm.Show();
+                    AdminMenu adminMenu = new AdminMenu();
+                    adminMenu.Show();
                 }
-
             }
+
         }
     }
 }

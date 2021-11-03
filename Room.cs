@@ -9,7 +9,6 @@ namespace Booking_system
 
     public class Room
     {
-        [Key]
         public int RoomID { get; set; }
         [Required]
         public int Number { get; set; }

@@ -9,7 +9,6 @@ namespace Booking_system
 
     public class Administrator:ILogable
     {
-        [Key]
         public int AdministratorID {get; set;}
 
         [StringLength(11)]
@@ -55,6 +54,11 @@ namespace Booking_system
         public string GetPassword()
         {
             return Password;
+        }
+
+        public void SetPassword(string pass)
+        {
+            Password = pass;
         }
     }
 }

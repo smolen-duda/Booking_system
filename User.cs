@@ -9,7 +9,6 @@ namespace Booking_system
     // User are hotel guests, they can make reservations.
     public class User : ILogable
     {
-        [Key]
         public int UserID { get; set; }
 
         [StringLength(11)]

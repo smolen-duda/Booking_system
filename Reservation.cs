@@ -7,7 +7,6 @@ namespace Booking_system
 {
     public class Reservation
     {
-        [Key]
         public int ReservationID {get; set;}
 
         [Column("From")]

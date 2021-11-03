@@ -10,10 +10,10 @@ namespace Booking_system
 
         }
 
-        public DbSet<User> Users;
-        public DbSet<Administrator> Administrators;
-        public DbSet<Reservation> Reservations;
-        public DbSet<Room> Rooms;
+        public DbSet<User> Users { get; set; }
+        public DbSet<Administrator> Administrators { get; set; }
+        public DbSet<Reservation> Reservations { get; set; }
+        public DbSet<Room> Rooms { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
