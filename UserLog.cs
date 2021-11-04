@@ -44,7 +44,7 @@ namespace Booking_system
                 DatabaseManager dbManager = new DatabaseManager();
                 dbManager.UserDidNotFind += Info;
 
-                bool authentication = user.Login(dbManager);
+                bool authentication = Authentication.Login(dbManager,user);
 
                 if (!authentication)
                 {

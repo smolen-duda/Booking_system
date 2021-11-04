@@ -116,6 +116,7 @@ namespace Booking_system
             this.PassBox.TabIndex = 9;
             this.PassBox.Click += new System.EventHandler(this.PassBox_Click);
             this.PassBox.TextChanged += new System.EventHandler(this.PassBox_TextChanged);
+            this.PassBox.PasswordChar = '*';
             // 
             // UserLog
             // 
