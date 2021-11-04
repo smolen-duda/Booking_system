@@ -12,10 +12,23 @@ namespace Booking_system
 {
     public partial class AdminLog : Form
     {
+        private DisableButtonEvent disable = new DisableButtonEvent();
+
         public AdminLog()
         {
             InitializeComponent();
+            disable.Writing += ShouldBeEnabled;
+            SignIn.Enabled = false;
         }
+
+        public void ShouldBeEnabled(object sender, EventArgs e)
+        {
+            if (!String.IsNullOrEmpty(IDBox.Text) && !String.IsNullOrEmpty(PassBox.Text))
+            {
+                SignIn.Enabled = true;
+            }
+        }
+
 
         private void Cancel_Click(object sender, EventArgs e)
         {
@@ -69,10 +82,12 @@ namespace Booking_system
             if (String.IsNullOrEmpty(IDBox.Text))
             {
                 IDBox.BorderColor = Color.Red;
+                SignIn.Enabled = false;
             }
             else
             {
                 IDBox.BorderColor = Color.Gray;
+                disable.OnWriting(sender, e);
             }
         }
         private void IDBox_Click(object sender, EventArgs e)
@@ -80,10 +95,12 @@ namespace Booking_system
             if (String.IsNullOrEmpty(IDBox.Text))
             {
                 IDBox.BorderColor = Color.Red;
+                SignIn.Enabled = false;
             }
             else
             {
                 IDBox.BorderColor = Color.Gray;
+                disable.OnWriting(sender, e);
             }
         }
 
@@ -92,10 +109,12 @@ namespace Booking_system
             if (String.IsNullOrEmpty(PassBox.Text))
             {
                 PassBox.BorderColor = Color.Red;
+                SignIn.Enabled = false;
             }
             else
             {
                 PassBox.BorderColor = Color.Gray;
+                disable.OnWriting(sender, e);
             }
         }
 
@@ -104,10 +123,12 @@ namespace Booking_system
             if (String.IsNullOrEmpty(PassBox.Text))
             {
                 PassBox.BorderColor = Color.Red;
+                SignIn.Enabled = false;
             }
             else
             {
                 PassBox.BorderColor = Color.Gray;
+                disable.OnWriting(sender, e);
             }
         }
 
