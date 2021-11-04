@@ -24,17 +24,17 @@ namespace Booking_system
 
         private void SignIn_Click(object sender, EventArgs e)
         {
-            if (String.IsNullOrEmpty(IDBox.Text))
+            MessageLabel.Text = "";
+            if (String.IsNullOrEmpty(IDBox.Text) && String.IsNullOrEmpty(PassBox.Text))
             {
-                if (String.IsNullOrEmpty(PassBox.Text))
-                {
-                    MessageLabel.Text = "Provide ID and password.";
-                }
-                else
-                {
-                    MessageLabel.Text = "Provide password.";
-                }
-
+                MessageLabel.Text = "Provide ID and password.";
+            }
+            else if (String.IsNullOrEmpty(PassBox.Text))
+            {
+                MessageLabel.Text = "Provide password.";
+            }
+            else if (String.IsNullOrEmpty(IDBox.Text))
+            {
                 MessageLabel.Text = "Provide ID.";
             }
             else
@@ -42,11 +42,18 @@ namespace Booking_system
                 Administrator admin = new Administrator() { ID = IDBox.Text };
                 admin.SetPassword(PassBox.Text);
 
-                bool authentication = Authentication.Login(admin);
+                DatabaseManager dbManager = new DatabaseManager();
+                dbManager.UserDidNotFind += Info;
+
+                bool authentication = admin.Login(dbManager);
 
                 if (!authentication)
                 {
-                    MessageLabel.Text = "ID or password is incorrect.";
+                    // Prevents ovveridding the message from the event.
+                    if (MessageLabel.Text == "")
+                    {
+                        MessageLabel.Text = "ID or password is incorrect.";
+                    }
                 }
                 else
                 {
@@ -55,6 +62,61 @@ namespace Booking_system
                 }
             }
 
+        }
+
+        private void IDBox_TextChanged(object sender, EventArgs e)
+        {
+            if (String.IsNullOrEmpty(IDBox.Text))
+            {
+                IDBox.BorderColor = Color.Red;
+            }
+            else
+            {
+                IDBox.BorderColor = Color.Gray;
+            }
+        }
+        private void IDBox_Click(object sender, EventArgs e)
+        {
+            if (String.IsNullOrEmpty(IDBox.Text))
+            {
+                IDBox.BorderColor = Color.Red;
+            }
+            else
+            {
+                IDBox.BorderColor = Color.Gray;
+            }
+        }
+
+        private void PassBox_TextChanged(object sender, EventArgs e)
+        {
+            if (String.IsNullOrEmpty(PassBox.Text))
+            {
+                PassBox.BorderColor = Color.Red;
+            }
+            else
+            {
+                PassBox.BorderColor = Color.Gray;
+            }
+        }
+
+        private void PassBox_Click(object sender, EventArgs e)
+        {
+            if (String.IsNullOrEmpty(PassBox.Text))
+            {
+                PassBox.BorderColor = Color.Red;
+            }
+            else
+            {
+                PassBox.BorderColor = Color.Gray;
+            }
+        }
+
+
+        // This method is needed for an event occuring when the user gave wrong ID.
+        public void Info(string s)
+        {
+            MessageLabel.Text = s;
+            MessageLabel.Left = 40;
         }
     }
 }

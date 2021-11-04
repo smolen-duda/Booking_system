@@ -15,6 +15,6 @@ namespace Booking_system
 
         public void SetPassword(string pass);
 
-        public bool Login();
+        public bool Login(DatabaseManager dbManager);
     }
 }

@@ -39,16 +39,23 @@ namespace Booking_system
             }
         }
 
-        public bool Login()
+        public bool Login(DatabaseManager dbManager)
         {
-            DatabaseManager dbManager = new DatabaseManager();
             var user = dbManager.Find(this);
-            if(user.GetPassword()==GetPassword())
+
+            if (user != null)
             {
-                return true;
+                if (user.GetPassword() == GetPassword())
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
-            else 
-            { 
+            else
+            {
                 return false;
             }
         }

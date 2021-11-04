@@ -32,11 +32,11 @@ namespace Booking_system
             this.label1 = new System.Windows.Forms.Label();
             this.SignIn = new System.Windows.Forms.Button();
             this.Cancel = new System.Windows.Forms.Button();
-            this.IDBox = new System.Windows.Forms.TextBox();
-            this.PassBox = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.MessageLabel = new System.Windows.Forms.Label();
+            this.IDBox = new Booking_system.ColorTextBox();
+            this.PassBox = new Booking_system.ColorTextBox();
             this.SuspendLayout();
             // 
             // label1
@@ -69,20 +69,6 @@ namespace Booking_system
             this.Cancel.UseVisualStyleBackColor = true;
             this.Cancel.Click += new System.EventHandler(this.Cancel_Click);
             // 
-            // IDBox
-            // 
-            this.IDBox.Location = new System.Drawing.Point(81, 202);
-            this.IDBox.Name = "IDBox";
-            this.IDBox.Size = new System.Drawing.Size(234, 27);
-            this.IDBox.TabIndex = 3;
-            // 
-            // PassBox
-            // 
-            this.PassBox.Location = new System.Drawing.Point(81, 289);
-            this.PassBox.Name = "PassBox";
-            this.PassBox.Size = new System.Drawing.Size(234, 27);
-            this.PassBox.TabIndex = 4;
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -110,17 +96,38 @@ namespace Booking_system
             this.MessageLabel.Size = new System.Drawing.Size(0, 20);
             this.MessageLabel.TabIndex = 7;
             // 
+            // IDBox
+            // 
+            this.IDBox.BorderColor = System.Drawing.SystemColors.GrayText;
+            this.IDBox.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.IDBox.Location = new System.Drawing.Point(80, 202);
+            this.IDBox.Name = "IDBox";
+            this.IDBox.Size = new System.Drawing.Size(233, 27);
+            this.IDBox.TabIndex = 8;
+            this.IDBox.Click += new System.EventHandler(this.IDBox_Click);
+            this.IDBox.TextChanged += new System.EventHandler(this.IDBox_TextChanged);
+            // 
+            // PassBox
+            // 
+            this.PassBox.BorderColor = System.Drawing.SystemColors.GrayText;
+            this.PassBox.Location = new System.Drawing.Point(80, 289);
+            this.PassBox.Name = "PassBox";
+            this.PassBox.Size = new System.Drawing.Size(233, 27);
+            this.PassBox.TabIndex = 9;
+            this.PassBox.Click += new System.EventHandler(this.PassBox_Click);
+            this.PassBox.TextChanged += new System.EventHandler(this.PassBox_TextChanged);
+            // 
             // UserLog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LightGray;
             this.ClientSize = new System.Drawing.Size(423, 468);
+            this.Controls.Add(this.PassBox);
+            this.Controls.Add(this.IDBox);
             this.Controls.Add(this.MessageLabel);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.PassBox);
-            this.Controls.Add(this.IDBox);
             this.Controls.Add(this.Cancel);
             this.Controls.Add(this.SignIn);
             this.Controls.Add(this.label1);
@@ -138,10 +145,10 @@ namespace Booking_system
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button SignIn;
         private System.Windows.Forms.Button Cancel;
-        private System.Windows.Forms.TextBox IDBox;
-        private System.Windows.Forms.TextBox PassBox;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label MessageLabel;
+        private ColorTextBox IDBox;
+        private ColorTextBox PassBox;
     }
 }

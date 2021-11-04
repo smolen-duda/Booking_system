@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Linq.Dynamic.Core;
 using System.Windows.Forms;
+using System.Runtime.InteropServices;
 
 namespace Booking_system
 {
@@ -14,6 +15,11 @@ namespace Booking_system
         {
 
         }
+
+        public delegate void UserDoesNotExistsHandler(string message);
+        public event UserDoesNotExistsHandler UserDidNotFind;
+
+
 
         // This method finds person in a respective table in the database.
         // All classes mantaining person's data must implement interface ILogable.
@@ -28,12 +34,30 @@ namespace Booking_system
                 try
                 {
                     userDatabase=db.Set(accountType).Where("ID=@0",id).First();
+                    return userDatabase;
                 }
                 catch(Exception e)
                 {
-                    MessageBox.Show(e.Message);
+                    if(e.HResult== -2146233079)
+                    {
+                        OnUserDidNotFind("There is no such an account. Please sign up first.");
+                    }
+                    else
+                    {
+                        MessageBox.Show(e.Message);
+                    }
+
+                    return null;
                 }
-                return userDatabase;
+            }
+        }
+
+
+        public void OnUserDidNotFind(string str)
+        {
+            if(UserDidNotFind!=null)
+            {
+                UserDidNotFind(str);
             }
         }
 

@@ -41,6 +41,10 @@ namespace Booking_system
 
         }
 
-        
+        private void AdminSign_Click(object sender, EventArgs e)
+        {
+            AdminLog adminLog = new AdminLog();
+            adminLog.Show();
+        }
     }
 }

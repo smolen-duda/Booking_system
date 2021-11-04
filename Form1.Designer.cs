@@ -76,6 +76,7 @@ namespace Booking_system
             this.AdminSign.TabIndex = 2;
             this.AdminSign.Text = "Administrator";
             this.AdminSign.UseVisualStyleBackColor = false;
+            this.AdminSign.Click += new System.EventHandler(this.AdminSign_Click);
             // 
             // label1
             // 
