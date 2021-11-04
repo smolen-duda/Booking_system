@@ -12,9 +12,23 @@ namespace Booking_system
 {
     public partial class BookingForm : Form
     {
-        public BookingForm()
+        private Form StartingForm;
+        public BookingForm(Form form)
         {
             InitializeComponent();
+            StartingForm = form;
+            EndDate.Value = StartDate.Value.AddDays(1);
+        }
+
+        private void LogOut_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            StartingForm.Show();
+        }
+
+        private void StartDate_ValueChanged(object sender, EventArgs e)
+        {
+            EndDate.Value = StartDate.Value.AddDays(1);
         }
     }
 }

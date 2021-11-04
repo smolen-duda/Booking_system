@@ -13,10 +13,12 @@ namespace Booking_system
     public partial class AdminLog : Form
     {
         private DisableButtonEvent disable = new DisableButtonEvent();
+        private Form StartingForm;
 
-        public AdminLog()
+        public AdminLog(Form form)
         {
             InitializeComponent();
+            StartingForm = form;
             disable.Writing += ShouldBeEnabled;
             SignIn.Enabled = false;
         }
@@ -70,8 +72,10 @@ namespace Booking_system
                 }
                 else
                 {
-                    AdminMenu adminMenu = new AdminMenu();
+                    AdminMenu adminMenu = new AdminMenu(StartingForm);
                     adminMenu.Show();
+                    this.Close();
+                    StartingForm.Hide();
                 }
             }
 

@@ -12,9 +12,12 @@ namespace Booking_system
 {
     public partial class AdminMenu : Form
     {
-        public AdminMenu()
+        private Form StartingForm;
+
+        public AdminMenu(Form form)
         {
             InitializeComponent();
+            StartingForm = form;
         }
     }
 }

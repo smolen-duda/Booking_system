@@ -9,6 +9,7 @@ namespace Booking_system
 
     public class Administrator:ILogable
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int AdministratorID {get; set;}
 
         [StringLength(11)]

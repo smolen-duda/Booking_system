@@ -7,6 +7,7 @@ namespace Booking_system
 {
     public class Reservation
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ReservationID {get; set;}
 
         [Column("From")]

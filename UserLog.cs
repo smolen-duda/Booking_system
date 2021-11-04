@@ -14,10 +14,12 @@ namespace Booking_system
     {
 
         private DisableButtonEvent disable = new DisableButtonEvent();
+        private Form StartingForm;
 
-        public UserLog()
+        public UserLog(Form form)
         {
             InitializeComponent();
+            StartingForm = form;
             disable.Writing += ShouldBeEnabled;
             SignIn.Enabled = false;
         }
@@ -70,8 +72,10 @@ namespace Booking_system
                 }
                 else
                 {
-                    BookingForm bookingForm = new BookingForm();
+                    BookingForm bookingForm = new BookingForm(StartingForm);
                     bookingForm.Show();
+                    this.Close();
+                    StartingForm.Hide();
                 }
 
             }

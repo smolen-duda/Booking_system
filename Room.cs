@@ -9,9 +9,13 @@ namespace Booking_system
 
     public class Room
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int RoomID { get; set; }
         [Required]
         public int Number { get; set; }
+
+        [Required]
+        public int NumberOfBeds { get; set; }
 
         [Required]
         public decimal Fee { get; set; }

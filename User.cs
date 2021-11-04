@@ -9,6 +9,7 @@ namespace Booking_system
     // User are hotel guests, they can make reservations.
     public class User : ILogable
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int UserID { get; set; }
 
         [StringLength(11)]

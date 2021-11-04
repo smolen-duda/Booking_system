@@ -36,14 +36,13 @@ namespace Booking_system
 
         private void UserSign_Click(object sender, EventArgs e)
         {
-            UserLog userLog = new UserLog();
+            UserLog userLog = new UserLog(this);
             userLog.Show();
-
         }
 
         private void AdminSign_Click(object sender, EventArgs e)
         {
-            AdminLog adminLog = new AdminLog();
+            AdminLog adminLog = new AdminLog(this);
             adminLog.Show();
         }
     }
