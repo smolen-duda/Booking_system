@@ -16,6 +16,7 @@ namespace Booking_system
 
         }
 
+
         public delegate void UserDoesNotExistsHandler(string message);
         public event UserDoesNotExistsHandler UserDidNotFind;
 
@@ -84,6 +85,33 @@ namespace Booking_system
             }
         }
 
+        public List<List<Room>> Search(int people, int rooms, DateTime from, DateTime to)
+        {
+            List<List<Room>> options = new List<List<Room>>();
+
+            using (Context db = new Context())
+            {
+                
+            }
+
+                return options;
+        }
+
+        //Checks availability of the room in given dates.
+        private bool CheckAvailability(Room room, DateTime from, DateTime to)
+        {
+            bool availability = false;
+
+            using (Context db = new Context())
+            {
+                if(!db.Reservations.Where(r => r.Rooms.Contains(room) && (from < r.ToDate || to > r.FromDate)).Any())
+                {
+                    availability = true;
+                }
+            }
+
+            return availability;
+        }
         
 
     }

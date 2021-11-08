@@ -30,5 +30,45 @@ namespace Booking_system
         {
             EndDate.Value = StartDate.Value.AddDays(1);
         }
+
+        private void Check_Click(object sender, EventArgs e)
+        {
+            NumberOfPeopleBox.ChangeBorderColorToRed();
+            NumberOfRoomsBox.ChangeBorderColorToRed();
+
+            if (!String.IsNullOrEmpty(NumberOfPeopleBox.Text) && !String.IsNullOrEmpty(NumberOfRoomsBox.Text))
+            {
+                int people = Int16.Parse(NumberOfPeopleBox.Text);
+                int rooms = Int16.Parse(NumberOfRoomsBox.Text);
+                DateTime from = StartDate.Value;
+                DateTime to = EndDate.Value;
+                DatabaseManager dbManager = new DatabaseManager();
+                
+               // bool availability=dbManager.Search(people,rooms,from,to);
+
+            }
+           
+            
+
+        }
+
+
+        // This method disables non integer number of people.
+        private void NumberOfPeopleBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && ((e.KeyChar != '.') || (e.KeyChar != ',')))
+            {
+                e.Handled = true;
+            }
+        }
+
+        // This method disables non integer number of rooms.
+        private void NumberOfRoomsBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && ((e.KeyChar != '.') || (e.KeyChar != ',')))
+            {
+                e.Handled = true;
+            }
+        }
     }
 }

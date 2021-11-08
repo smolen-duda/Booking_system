@@ -31,7 +31,7 @@ namespace Booking_system
         {
             NewAccount newAccount = new NewAccount();
             newAccount.Show();
-            
+
         }
 
         private void UserSign_Click(object sender, EventArgs e)
@@ -45,5 +45,13 @@ namespace Booking_system
             AdminLog adminLog = new AdminLog(this);
             adminLog.Show();
         }
+
+        private void Tester_Click(object sender, EventArgs e)
+        {
+            BookingForm bookingForm = new BookingForm(this);
+            bookingForm.Show();
+        }
+
+
     }
 }

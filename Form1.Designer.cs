@@ -37,6 +37,7 @@ namespace Booking_system
             this.label2 = new System.Windows.Forms.Label();
             this.NewAccount = new System.Windows.Forms.LinkLabel();
             this.UserSign = new System.Windows.Forms.Button();
+            this.Tester = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // Close1
@@ -126,12 +127,23 @@ namespace Booking_system
             this.UserSign.UseVisualStyleBackColor = false;
             this.UserSign.Click += new System.EventHandler(this.UserSign_Click);
             // 
+            // Tester
+            // 
+            this.Tester.Location = new System.Drawing.Point(79, 43);
+            this.Tester.Name = "Tester";
+            this.Tester.Size = new System.Drawing.Size(148, 47);
+            this.Tester.TabIndex = 8;
+            this.Tester.Text = "Tester";
+            this.Tester.UseVisualStyleBackColor = true;
+            this.Tester.Click += new System.EventHandler(this.Tester_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(1196, 723);
+            this.Controls.Add(this.Tester);
             this.Controls.Add(this.UserSign);
             this.Controls.Add(this.NewAccount);
             this.Controls.Add(this.label2);
@@ -157,6 +169,7 @@ namespace Booking_system
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.LinkLabel NewAccount;
         private System.Windows.Forms.Button UserSign;
+        private System.Windows.Forms.Button Tester;
     }
 }
 

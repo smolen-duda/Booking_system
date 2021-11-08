@@ -20,6 +20,7 @@ namespace Booking_system
         [Required]
         public decimal Fee { get; set; }
 
+
         public ICollection<Reservation> Reservations { get; set; }
     }
 }

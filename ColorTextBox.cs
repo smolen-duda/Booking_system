@@ -49,6 +49,18 @@ namespace Booking_system
             RedrawWindow(Handle, IntPtr.Zero, IntPtr.Zero,
                    RDW_FRAME | RDW_IUPDATENOW | RDW_INVALIDATE);
         }
+
+        public void ChangeBorderColorToRed()
+        {
+            if (String.IsNullOrEmpty(Text))
+            {
+                BorderColor = Color.Red;
+            }
+            else
+            {
+                BorderColor = Color.Gray;
+            }
+        }
     }
 }
 

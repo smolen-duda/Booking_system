@@ -30,6 +30,10 @@ namespace Booking_system
             {
                 SignIn.Enabled = true;
             }
+            else
+            {
+                SignIn.Enabled = false;
+            }
         }
 
 
@@ -83,58 +87,26 @@ namespace Booking_system
 
         private void IDBox_TextChanged(object sender, EventArgs e)
         {
-            if (String.IsNullOrEmpty(IDBox.Text))
-            {
-                IDBox.BorderColor = Color.Red;
-                SignIn.Enabled = false;
-            }
-            else 
-            {
-                IDBox.BorderColor = Color.Gray;
-                disable.OnWriting(sender,e);
-            }
+            IDBox.ChangeBorderColorToRed();
+            disable.OnWriting(sender, e);
         }
 
         private void IDBox_Click(object sender, System.EventArgs e)
         {
-            if (String.IsNullOrEmpty(IDBox.Text))
-            {
-                IDBox.BorderColor = Color.Red;
-                SignIn.Enabled = false;
-            }
-            else
-            {
-                IDBox.BorderColor = Color.Gray;
-                disable.OnWriting(sender, e);
-            }
+            IDBox.ChangeBorderColorToRed();
+            disable.OnWriting(sender, e);
         }
 
         private void PassBox_TextChanged(object sender, EventArgs e)
         {
-            if (String.IsNullOrEmpty(PassBox.Text))
-            {
-                PassBox.BorderColor = Color.Red;
-                SignIn.Enabled = false;
-            }
-            else
-            {
-                PassBox.BorderColor = Color.Gray;
-                disable.OnWriting(sender, e);
-            }
+            PassBox.ChangeBorderColorToRed();
+            disable.OnWriting(sender, e);
         }
 
         private void PassBox_Click(object sender, System.EventArgs e)
         {
-            if (String.IsNullOrEmpty(PassBox.Text))
-            {
-                PassBox.BorderColor = Color.Red;
-                SignIn.Enabled = false;
-            }
-            else
-            {
-                PassBox.BorderColor = Color.Gray;
-                disable.OnWriting(sender, e);
-            }
+            PassBox.ChangeBorderColorToRed();
+            disable.OnWriting(sender, e);
         }
 
         // This method is needed for an event occuring when the user gave wrong ID.
