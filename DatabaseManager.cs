@@ -13,7 +13,7 @@ namespace Booking_system
     {
         public DatabaseManager()
         {
-
+            
         }
 
 
@@ -97,6 +97,62 @@ namespace Booking_system
                 return options;
         }
 
+        public List<List<Room>> SearchForRooms(int people, int numberOfRooms, DateTime from, DateTime to)
+        {
+            int maxRoom;
+            List<List<Room>> possibleRooms = new List<List<Room>>();
+            using (Context db = new Context())
+            {
+                maxRoom = db.Rooms.Max(r => r.NumberOfBeds);
+                List<List<int>> possibleConfigurations=IntegerPartition.Partition(people, maxRoom, numberOfRooms);
+                foreach (List<int> configuration in possibleConfigurations)
+                {
+                    List<Room> temp = new List<Room>();
+                    foreach (int i in configuration)
+                    {
+                        List<Room> rooms=db.Rooms.Where(r => r.NumberOfBeds == i).ToList();
+                        if (rooms.Any())
+                        {
+                            bool isDone=IsUsedIfNotThenAdd(rooms, temp, from, to);
+                            if (!isDone)
+                            {
+                                temp.Clear();
+                                break;
+                            }
+                        }
+                        
+                    }
+                    if (temp.Count != 0)
+                    {
+                        possibleRooms.Add(temp);
+                    }
+                }
+            }
+            return possibleRooms;
+        }
+
+        private bool IsUsedIfNotThenAdd(List<Room> rooms, List<Room> choosenRooms, DateTime from, DateTime to)
+        {
+            if (!choosenRooms.Contains(rooms[0])&& CheckAvailability(rooms[0], from,to))
+            {
+                choosenRooms.Add(rooms[0]);
+                return true;
+            }
+            else
+            {
+                rooms.RemoveAt(0);
+                if (rooms.Count != 0)
+                {
+                    IsUsedIfNotThenAdd(rooms, choosenRooms, from, to);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
         //Checks availability of the room in given dates.
         private bool CheckAvailability(Room room, DateTime from, DateTime to)
         {
@@ -104,7 +160,8 @@ namespace Booking_system
 
             using (Context db = new Context())
             {
-                if(!db.Reservations.Where(r => r.Rooms.Contains(room) && (from < r.ToDate || to > r.FromDate)).Any())
+                bool condition = db.Reservations.Where(r => r.Rooms.Select(ro=>ro.RoomID).Contains(room.RoomID) && (from>r.FromDate || to<r.ToDate)).Any();
+                if (!condition)
                 {
                     availability = true;
                 }

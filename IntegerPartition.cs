@@ -28,6 +28,7 @@ namespace Booking_system
 
         public static List<List<int>> Partition(int n, int max)
         {
+            results.Clear();
             Partition(n,max, new List<int>());
             return results;
         }

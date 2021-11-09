@@ -33,19 +33,72 @@ namespace Booking_system
 
         private void Check_Click(object sender, EventArgs e)
         {
+            RoomsPanel.Controls.Clear();
+
             NumberOfPeopleBox.ChangeBorderColorToRed();
             NumberOfRoomsBox.ChangeBorderColorToRed();
 
             if (!String.IsNullOrEmpty(NumberOfPeopleBox.Text) && !String.IsNullOrEmpty(NumberOfRoomsBox.Text))
             {
                 int people = Int16.Parse(NumberOfPeopleBox.Text);
-                int rooms = Int16.Parse(NumberOfRoomsBox.Text);
+                int numberOfRooms = Int16.Parse(NumberOfRoomsBox.Text);
                 DateTime from = StartDate.Value;
                 DateTime to = EndDate.Value;
                 DatabaseManager dbManager = new DatabaseManager();
-                
-               // bool availability=dbManager.Search(people,rooms,from,to);
 
+                List<List<Room>> rooms = dbManager.SearchForRooms(people, numberOfRooms, from, to);
+
+                if(rooms.Count==0)
+                {
+                    Label noRooms = new Label();
+                    noRooms.Location = new Point(Check.Location.X-15,  15);
+                    noRooms.Text = "No rooms are available.";
+                    noRooms.Size = new Size(200, 30);
+
+                    noRooms.BackColor = System.Drawing.Color.White;
+
+                    this.RoomsPanel.Controls.Add(noRooms);
+
+                    noRooms.Show();
+                }    
+
+                List<Label> labels = new List<Label>();
+
+                foreach (List<Room> configuration in rooms)
+                {
+                    var temp = new Label();
+                    int coordY = 0;
+                    int previousSize = 0;
+
+                    if (labels.Any())
+                    {
+                        coordY = labels[labels.Count()-1].Location.Y;
+                        previousSize = labels[labels.Count() - 1].Size.Height;
+                    }
+
+                    temp.Location = new Point(RoomsPanel.Location.X+10, coordY + previousSize+ 15);
+
+                    decimal price = 0;
+                    string str = "";
+                    foreach (Room room in configuration)
+                    {
+                        str += room.NumberOfBeds + " Person room\n" ;
+                        price += room.Fee;
+                    }
+                    str += price;
+
+                    temp.Text = str;
+                    temp.Size = new Size(400, 100);
+                   // temp.Click += new EventHandler(BookinForm_Load);
+
+                    temp.BackColor = System.Drawing.Color.White;
+
+                    this.RoomsPanel.Controls.Add(temp);
+
+                    temp.Show();
+                    labels.Add(temp);
+
+                }
             }
            
             
