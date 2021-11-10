@@ -46,37 +46,36 @@ namespace Booking_system
                 DateTime to = EndDate.Value;
                 DatabaseManager dbManager = new DatabaseManager();
 
+
+                //Searching for all configurations of rooms.
+
                 List<List<Room>> rooms = dbManager.SearchForRooms(people, numberOfRooms, from, to);
+
+                // Checking if there are some configurations of rooms.
 
                 if(rooms.Count==0)
                 {
-                    Label noRooms = new Label();
-                    noRooms.Location = new Point(Check.Location.X-15,  15);
-                    noRooms.Text = "No rooms are available.";
-                    noRooms.Size = new Size(200, 30);
-
-                    noRooms.BackColor = System.Drawing.Color.White;
-
+                    Label noRooms = CreateNewLabel(Check.Location.X - 15, 15, "No rooms are available.", new Size(200, 30));
                     this.RoomsPanel.Controls.Add(noRooms);
+                }
 
-                    noRooms.Show();
-                }    
+                // Creating labels and buttons for all options.
 
                 List<Label> labels = new List<Label>();
+                List<Button> buttons = new List<Button>();
 
                 foreach (List<Room> configuration in rooms)
                 {
-                    var temp = new Label();
                     int coordY = 0;
-                    int previousSize = 0;
+                    int previousSizeH = 0;
+                    int previousSizeW = 400;
 
                     if (labels.Any())
                     {
                         coordY = labels[labels.Count()-1].Location.Y;
-                        previousSize = labels[labels.Count() - 1].Size.Height;
+                        previousSizeH = labels[labels.Count() - 1].Size.Height;
+                        previousSizeW = labels[labels.Count() - 1].Size.Width;
                     }
-
-                    temp.Location = new Point(RoomsPanel.Location.X+10, coordY + previousSize+ 15);
 
                     decimal price = 0;
                     string str = "";
@@ -85,31 +84,58 @@ namespace Booking_system
                         str += room.NumberOfBeds + " Person room\n" ;
                         price += room.Fee;
                     }
-                    str += price;
+                    str +="Price: "+price;
 
-                    temp.Text = str;
-                    temp.Size = new Size(400, 100);
-                   // temp.Click += new EventHandler(BookinForm_Load);
-
-                    temp.BackColor = System.Drawing.Color.White;
-
+                    Label temp = CreateNewLabel(RoomsPanel.Location.X + 10, coordY + previousSizeH + 15, str, new Size(400, 100));
+                    Button tempButton = CreateNewButton(RoomsPanel.Location.X + 40+previousSizeW, coordY + previousSizeH + 45,"Choose",new Size(100, 40));
                     this.RoomsPanel.Controls.Add(temp);
+                    this.RoomsPanel.Controls.Add(tempButton);
 
-                    temp.Show();
                     labels.Add(temp);
+                    buttons.Add(tempButton);
 
                 }
             }
-           
-            
 
+        }
+
+        private Label CreateNewLabel(int locationX, int locationY, string text, Size size)
+        {
+            Label newLabel = new Label();
+            newLabel.Location = new Point(locationX,locationY);
+            newLabel.Text = text;
+            newLabel.Size =size;
+
+            newLabel.BackColor = System.Drawing.Color.White;
+            newLabel.Show();
+
+            return newLabel;
+        }
+
+        private Button CreateNewButton(int locationX, int locationY, string text, Size size)
+        {
+            Button newButton = new Button();
+            newButton.Location = new Point(locationX, locationY);
+            newButton.Text = text;
+            newButton.Size = size;
+
+            newButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            newButton.BackColor = System.Drawing.Color.Peru;
+            newButton.Click += (s, e) =>
+            {
+                MessageBox.Show("Click!");
+            };
+
+
+            newButton.Show();
+            return newButton;
         }
 
 
         // This method disables non integer number of people.
         private void NumberOfPeopleBox_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && ((e.KeyChar != '.') || (e.KeyChar != ',')))
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && ((e.KeyChar != '.') || (e.KeyChar != ','))|| (NumberOfPeopleBox.Text=="" && e.KeyChar=='0'))
             {
                 e.Handled = true;
             }
@@ -118,7 +144,7 @@ namespace Booking_system
         // This method disables non integer number of rooms.
         private void NumberOfRoomsBox_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && ((e.KeyChar != '.') || (e.KeyChar != ',')))
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && ((e.KeyChar != '.') || (e.KeyChar != ',')) || (NumberOfPeopleBox.Text == "" && e.KeyChar == '0'))
             {
                 e.Handled = true;
             }
