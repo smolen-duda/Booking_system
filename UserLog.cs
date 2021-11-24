@@ -59,12 +59,13 @@ namespace Booking_system
             }
             else
             {
-                User user = new User() { ID = IDBox.Text };
-                user.SetPassword(PassBox.Text);
+                ILogable user = new User();
+                User person = new User() { ID = IDBox.Text };
+                person.SetPassword(PassBox.Text);
                 DatabaseManager dbManager = new DatabaseManager();
                 dbManager.UserDidNotFind += Info;
 
-                bool authentication = Authentication.Login(dbManager,user);
+                bool authentication = Authentication.Login(dbManager,person, out user);
 
                 if (!authentication)
                 {
@@ -76,7 +77,7 @@ namespace Booking_system
                 }
                 else
                 {
-                    BookingForm bookingForm = new BookingForm(StartingForm);
+                    BookingForm bookingForm = new BookingForm(StartingForm, user);
                     bookingForm.Show();
                     this.Close();
                     StartingForm.Hide();

@@ -12,16 +12,25 @@ namespace Booking_system
 {
     public partial class BookingForm : Form
     {
+        private List<Button> buttons = new List<Button>();
+        private List<List<Room>> rooms = new List<List<Room>>();
         private Form StartingForm;
-        public BookingForm(Form form)
+        private User LoggedUser;
+        public BookingForm(Form form, ILogable user)
         {
             InitializeComponent();
             StartingForm = form;
+            LoggedUser = (User)user;
             EndDate.Value = StartDate.Value.AddDays(1);
+            this.ReservationPanel.Hide();
+            this.RoomsPanel.Show();
         }
 
         private void LogOut_Click(object sender, EventArgs e)
         {
+
+            rooms.Clear();
+            buttons.Clear();
             this.Close();
             StartingForm.Show();
         }
@@ -33,6 +42,8 @@ namespace Booking_system
 
         private void Check_Click(object sender, EventArgs e)
         {
+            this.ReservationPanel.Hide();
+            this.RoomsPanel.Show();
             RoomsPanel.Controls.Clear();
 
             NumberOfPeopleBox.ChangeBorderColorToRed();
@@ -49,7 +60,8 @@ namespace Booking_system
 
                 //Searching for all configurations of rooms.
 
-                List<List<Room>> rooms = dbManager.SearchForRooms(people, numberOfRooms, from, to);
+                rooms.Clear();
+                rooms = dbManager.SearchForRooms(people, numberOfRooms, from, to);
 
                 // Checking if there are some configurations of rooms.
 
@@ -62,7 +74,7 @@ namespace Booking_system
                 // Creating labels and buttons for all options.
 
                 List<Label> labels = new List<Label>();
-                List<Button> buttons = new List<Button>();
+                buttons.Clear();
 
                 foreach (List<Room> configuration in rooms)
                 {
@@ -87,7 +99,7 @@ namespace Booking_system
                     str +="Price: "+price;
 
                     Label temp = CreateNewLabel(RoomsPanel.Location.X + 10, coordY + previousSizeH + 15, str, new Size(400, 100));
-                    Button tempButton = CreateNewButton(RoomsPanel.Location.X + 40+previousSizeW, coordY + previousSizeH + 45,"Choose",new Size(100, 40));
+                    Button tempButton = CreateNewButton(RoomsPanel.Location.X + 40+previousSizeW, coordY + previousSizeH + 45,"Reserve",new Size(100, 40));
                     this.RoomsPanel.Controls.Add(temp);
                     this.RoomsPanel.Controls.Add(tempButton);
 
@@ -99,6 +111,7 @@ namespace Booking_system
 
         }
 
+        // This method displays informations about possible configurations of rooms in a label. It creates an apriopiate number of labels.
         private Label CreateNewLabel(int locationX, int locationY, string text, Size size)
         {
             Label newLabel = new Label();
@@ -112,6 +125,7 @@ namespace Booking_system
             return newLabel;
         }
 
+        // This creates an apriopiate number of buttons enabling choosing the given configuration of rooms.
         private Button CreateNewButton(int locationX, int locationY, string text, Size size)
         {
             Button newButton = new Button();
@@ -123,7 +137,12 @@ namespace Booking_system
             newButton.BackColor = System.Drawing.Color.Peru;
             newButton.Click += (s, e) =>
             {
-                MessageBox.Show("Click!");
+                int index =  buttons.IndexOf(newButton);
+                List<Room> configuration =  rooms[index];
+                this.RoomsPanel.Hide();
+
+                CompleteTheReservationForm();
+                this.ReservationPanel.Show();
             };
 
 
@@ -148,6 +167,25 @@ namespace Booking_system
             {
                 e.Handled = true;
             }
+        }
+
+        //This method creates controls for collecting data from user;
+
+        private void CompleteTheReservationForm()
+        {
+            NameBox.Text = LoggedUser.Name;
+            SurnameBox.Text = LoggedUser.Surname;
+            IDBox.Text = LoggedUser.ID;
+            PhoneBox.Text = LoggedUser.PhoneNumber;
+            EmailBox.Text = LoggedUser.Email;
+        }
+
+
+        private void Cancel_Click(object sender, EventArgs e)
+        {
+            this.ReservationPanel.Hide();
+            this.RoomsPanel.Show();
+
         }
     }
 }

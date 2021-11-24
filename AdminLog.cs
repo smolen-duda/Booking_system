@@ -54,13 +54,14 @@ namespace Booking_system
             }
             else
             {
-                Administrator admin = new Administrator() { ID = IDBox.Text };
-                admin.SetPassword(PassBox.Text);
+                Administrator person = new Administrator() { ID = IDBox.Text };
+                ILogable admin = new Administrator();
+                person.SetPassword(PassBox.Text);
 
                 DatabaseManager dbManager = new DatabaseManager();
                 dbManager.UserDidNotFind += Info;
 
-                bool authentication = Authentication.Login(dbManager,admin);
+                bool authentication = Authentication.Login(dbManager,person,out admin);
 
                 if (!authentication)
                 {

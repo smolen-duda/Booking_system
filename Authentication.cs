@@ -9,9 +9,9 @@ namespace Booking_system
     public static class Authentication
     {
 
-        public static bool Login(DatabaseManager dbManager, ILogable person)
+        public static bool Login(DatabaseManager dbManager, ILogable person, out ILogable user)
         {
-            var user = dbManager.Find(person);
+            user = dbManager.Find(person);
             if (user != null)
             {
                 if (user.GetPassword() == person.GetPassword())
