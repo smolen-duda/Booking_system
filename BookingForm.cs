@@ -7,28 +7,49 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.ComponentModel.DataAnnotations;
 
 namespace Booking_system
 {
     public partial class BookingForm : Form
     {
+        private bool isChanged = false;
+        private List<Room> configuration = new List<Room>();
+        private DisableButtonEvent disable = new DisableButtonEvent();
         private List<Button> buttons = new List<Button>();
+        private List<Label> labels = new List<Label>();
         private List<List<Room>> rooms = new List<List<Room>>();
         private Form StartingForm;
         private User LoggedUser;
+        private List<decimal> prices = new List<decimal>();
+        private decimal choosenPrice = 0;
+
         public BookingForm(Form form, ILogable user)
         {
             InitializeComponent();
             StartingForm = form;
             LoggedUser = (User)user;
+
+            disable.Writing += ShouldBeEnabled;
+
             EndDate.Value = StartDate.Value.AddDays(1);
+
             this.ReservationPanel.Hide();
             this.RoomsPanel.Show();
         }
 
+        public void ShouldBeEnabled(object sender, EventArgs e)
+        {
+            if (!String.IsNullOrEmpty(NameBox.Text) && !String.IsNullOrEmpty(SurnameBox.Text)&& !String.IsNullOrEmpty(IDBox.Text)&&
+                !String.IsNullOrEmpty(PhoneBox.Text)&& !String.IsNullOrEmpty(EmailBox.Text))
+            {
+                Reserve.Enabled = true;
+            }
+        }
+
         private void LogOut_Click(object sender, EventArgs e)
         {
-
+            configuration.Clear();
             rooms.Clear();
             buttons.Clear();
             this.Close();
@@ -42,9 +63,11 @@ namespace Booking_system
 
         private void Check_Click(object sender, EventArgs e)
         {
+            isChanged = false;
             this.ReservationPanel.Hide();
             this.RoomsPanel.Show();
             RoomsPanel.Controls.Clear();
+            prices.Clear();
 
             NumberOfPeopleBox.ChangeBorderColorToRed();
             NumberOfRoomsBox.ChangeBorderColorToRed();
@@ -73,7 +96,7 @@ namespace Booking_system
 
                 // Creating labels and buttons for all options.
 
-                List<Label> labels = new List<Label>();
+                labels.Clear();
                 buttons.Clear();
 
                 foreach (List<Room> configuration in rooms)
@@ -97,6 +120,7 @@ namespace Booking_system
                         price += room.Fee;
                     }
                     str +="Price: "+price;
+                    prices.Add(price);
 
                     Label temp = CreateNewLabel(RoomsPanel.Location.X + 10, coordY + previousSizeH + 15, str, new Size(400, 100));
                     Button tempButton = CreateNewButton(RoomsPanel.Location.X + 40+previousSizeW, coordY + previousSizeH + 45,"Reserve",new Size(100, 40));
@@ -137,11 +161,13 @@ namespace Booking_system
             newButton.BackColor = System.Drawing.Color.Peru;
             newButton.Click += (s, e) =>
             {
+                configuration.Clear();
                 int index =  buttons.IndexOf(newButton);
-                List<Room> configuration =  rooms[index];
+                configuration =  rooms[index];
+                choosenPrice = prices[index];
                 this.RoomsPanel.Hide();
 
-                CompleteTheReservationForm();
+                CompleteTheReservationForm(labels[index].Text);
                 this.ReservationPanel.Show();
             };
 
@@ -171,13 +197,15 @@ namespace Booking_system
 
         //This method creates controls for collecting data from user;
 
-        private void CompleteTheReservationForm()
+        private void CompleteTheReservationForm(string text)
         {
             NameBox.Text = LoggedUser.Name;
             SurnameBox.Text = LoggedUser.Surname;
             IDBox.Text = LoggedUser.ID;
             PhoneBox.Text = LoggedUser.PhoneNumber;
             EmailBox.Text = LoggedUser.Email;
+
+            Configuration.Text ="Choosen option:\n"+text;
         }
 
 
@@ -185,7 +213,120 @@ namespace Booking_system
         {
             this.ReservationPanel.Hide();
             this.RoomsPanel.Show();
+            isChanged = false;
 
+        }
+
+        private void NameBox_TextChanged(object sender, EventArgs e)
+        {
+            IsTextBoxEmpty(NameBox, sender, e);
+            isChanged = true;
+        }
+
+        private void SurnameBox_TextChanged(object sender, EventArgs e)
+        {
+            IsTextBoxEmpty(SurnameBox, sender, e);
+            isChanged = true;
+        }
+
+        private void IDBox_TextChanged(object sender, EventArgs e)
+        {
+            IsTextBoxEmpty(IDBox, sender, e);
+            isChanged = true;
+        }
+
+        private void PhoneBox_TextChanged(object sender, EventArgs e)
+        {
+            IsTextBoxEmpty(PhoneBox, sender, e);
+            isChanged = true;
+        }
+
+        private void EmailBox_TextChanged(object sender, EventArgs e)
+        {
+            IsTextBoxEmpty(EmailBox, sender, e);
+            bool isCorrect=new EmailAddressAttribute().IsValid(EmailBox.Text);
+            if(!isCorrect)
+            {
+                EmailBox.BorderColor = Color.Red;
+                Reserve.Enabled = false;
+            }
+            else
+            {
+                EmailBox.BorderColor = Color.Gray;
+                disable.OnWriting(sender, e);
+            }
+            isChanged = true;
+
+        }
+
+        // Cheks if text in the given textbox is "" or null. If yes it disables Reserve button
+        // and changes border color to red, if no changes border color to gray.
+        private void IsTextBoxEmpty(ColorTextBox textBox, object sender, EventArgs e)
+        {
+            if (String.IsNullOrEmpty(textBox.Text))
+            {
+                textBox.BorderColor = Color.Red;
+                Reserve.Enabled = false;
+            }
+            else
+            {
+                textBox.BorderColor = Color.Gray;
+                disable.OnWriting(sender, e);
+            }
+        }
+
+
+        // This method disables non integer phone number.
+        private void PhoneBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && ((e.KeyChar != '.') || (e.KeyChar != ',')))
+            {
+                e.Handled = true;
+            }
+        }
+
+
+        // This method disables non integer ID.
+        private void IDBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && ((e.KeyChar != '.') || (e.KeyChar != ',')))
+            {
+                e.Handled = true;
+            }
+        }
+
+        // This method disables numbers in names.
+        private void NameBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsLetter(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        // This method disables numbers in names.
+        private void SurnameBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsLetter(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void Reserve_Click(object sender, EventArgs e)
+        {
+            DatabaseManager dbManager = new DatabaseManager();
+            Reservation reservation = new Reservation();
+            reservation.FromDate = StartDate.Value;
+            reservation.ToDate = EndDate.Value;
+            reservation.User = LoggedUser;
+            reservation.Rooms = configuration;
+            reservation.Fee =choosenPrice;
+            dbManager.MakeReservation(LoggedUser, reservation, configuration);
+
+            BookingForm bookingForm = new BookingForm(this,LoggedUser);
+            this.Close();
+            bookingForm.Show();
         }
     }
 }

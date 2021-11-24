@@ -33,13 +33,14 @@ namespace Booking_system
             this.LogOut = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.ReservationPanel = new System.Windows.Forms.Panel();
+            this.Cancel = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
             this.PhoneBox = new Booking_system.ColorTextBox();
             this.EmailBox = new Booking_system.ColorTextBox();
             this.IDBox = new Booking_system.ColorTextBox();
             this.SurnameBox = new Booking_system.ColorTextBox();
             this.NameBox = new Booking_system.ColorTextBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.Reserve = new System.Windows.Forms.Button();
             this.Configuration = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
@@ -56,7 +57,6 @@ namespace Booking_system
             this.label1 = new System.Windows.Forms.Label();
             this.EndDate = new System.Windows.Forms.DateTimePicker();
             this.StartDate = new System.Windows.Forms.DateTimePicker();
-            this.Cancel = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.ReservationPanel.SuspendLayout();
             this.SuspendLayout();
@@ -102,7 +102,7 @@ namespace Booking_system
             this.ReservationPanel.Controls.Add(this.IDBox);
             this.ReservationPanel.Controls.Add(this.SurnameBox);
             this.ReservationPanel.Controls.Add(this.NameBox);
-            this.ReservationPanel.Controls.Add(this.button1);
+            this.ReservationPanel.Controls.Add(this.Reserve);
             this.ReservationPanel.Controls.Add(this.Configuration);
             this.ReservationPanel.Controls.Add(this.label9);
             this.ReservationPanel.Controls.Add(this.label8);
@@ -113,6 +113,18 @@ namespace Booking_system
             this.ReservationPanel.Name = "ReservationPanel";
             this.ReservationPanel.Size = new System.Drawing.Size(669, 429);
             this.ReservationPanel.TabIndex = 9;
+            // 
+            // Cancel
+            // 
+            this.Cancel.BackColor = System.Drawing.Color.Peru;
+            this.Cancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Cancel.Location = new System.Drawing.Point(18, 348);
+            this.Cancel.Name = "Cancel";
+            this.Cancel.Size = new System.Drawing.Size(138, 54);
+            this.Cancel.TabIndex = 23;
+            this.Cancel.Text = "Cancel";
+            this.Cancel.UseVisualStyleBackColor = false;
+            this.Cancel.Click += new System.EventHandler(this.Cancel_Click);
             // 
             // label10
             // 
@@ -132,6 +144,8 @@ namespace Booking_system
             this.PhoneBox.Name = "PhoneBox";
             this.PhoneBox.Size = new System.Drawing.Size(216, 27);
             this.PhoneBox.TabIndex = 21;
+            this.PhoneBox.TextChanged += new System.EventHandler(this.PhoneBox_TextChanged);
+            this.PhoneBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.PhoneBox_KeyPress);
             // 
             // EmailBox
             // 
@@ -140,6 +154,7 @@ namespace Booking_system
             this.EmailBox.Name = "EmailBox";
             this.EmailBox.Size = new System.Drawing.Size(231, 27);
             this.EmailBox.TabIndex = 20;
+            this.EmailBox.TextChanged += new System.EventHandler(this.EmailBox_TextChanged);
             // 
             // IDBox
             // 
@@ -148,6 +163,8 @@ namespace Booking_system
             this.IDBox.Name = "IDBox";
             this.IDBox.Size = new System.Drawing.Size(262, 27);
             this.IDBox.TabIndex = 19;
+            this.IDBox.TextChanged += new System.EventHandler(this.IDBox_TextChanged);
+            this.IDBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.IDBox_KeyPress);
             // 
             // SurnameBox
             // 
@@ -156,6 +173,8 @@ namespace Booking_system
             this.SurnameBox.Name = "SurnameBox";
             this.SurnameBox.Size = new System.Drawing.Size(198, 27);
             this.SurnameBox.TabIndex = 18;
+            this.SurnameBox.TextChanged += new System.EventHandler(this.SurnameBox_TextChanged);
+            this.SurnameBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.SurnameBox_KeyPress);
             // 
             // NameBox
             // 
@@ -164,17 +183,20 @@ namespace Booking_system
             this.NameBox.Name = "NameBox";
             this.NameBox.Size = new System.Drawing.Size(231, 27);
             this.NameBox.TabIndex = 17;
+            this.NameBox.TextChanged += new System.EventHandler(this.NameBox_TextChanged);
+            this.NameBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.NameBox_KeyPress);
             // 
-            // button1
+            // Reserve
             // 
-            this.button1.BackColor = System.Drawing.Color.Peru;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Location = new System.Drawing.Point(489, 345);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(136, 57);
-            this.button1.TabIndex = 15;
-            this.button1.Text = "Reserve";
-            this.button1.UseVisualStyleBackColor = false;
+            this.Reserve.BackColor = System.Drawing.Color.Peru;
+            this.Reserve.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Reserve.Location = new System.Drawing.Point(489, 345);
+            this.Reserve.Name = "Reserve";
+            this.Reserve.Size = new System.Drawing.Size(136, 57);
+            this.Reserve.TabIndex = 15;
+            this.Reserve.Text = "Reserve";
+            this.Reserve.UseVisualStyleBackColor = false;
+            this.Reserve.Click += new System.EventHandler(this.Reserve_Click);
             // 
             // Configuration
             // 
@@ -326,33 +348,21 @@ namespace Booking_system
             // EndDate
             // 
             this.EndDate.Location = new System.Drawing.Point(400, 58);
-            this.EndDate.MinDate = new System.DateTime(2021, 11, 8, 0, 0, 0, 0);
+            this.EndDate.MinDate = new System.DateTime(2021, 11, 25, 0, 0, 0, 0);
             this.EndDate.Name = "EndDate";
             this.EndDate.Size = new System.Drawing.Size(273, 27);
             this.EndDate.TabIndex = 1;
-            this.EndDate.Value = new System.DateTime(2021, 11, 8, 0, 0, 0, 0);
+            this.EndDate.Value = System.DateTime.UtcNow.AddDays(1);
             // 
             // StartDate
             // 
             this.StartDate.Location = new System.Drawing.Point(61, 58);
-            this.StartDate.MinDate = new System.DateTime(2021, 11, 8, 0, 0, 0, 0);
+            this.StartDate.MinDate = new System.DateTime(2021, 11, 24, 0, 0, 0, 0);
             this.StartDate.Name = "StartDate";
             this.StartDate.Size = new System.Drawing.Size(276, 27);
             this.StartDate.TabIndex = 0;
-            this.StartDate.Value = new System.DateTime(2021, 11, 8, 0, 0, 0, 0);
+            this.StartDate.Value = System.DateTime.UtcNow;
             this.StartDate.ValueChanged += new System.EventHandler(this.StartDate_ValueChanged);
-            // 
-            // Cancel
-            // 
-            this.Cancel.BackColor = System.Drawing.Color.Peru;
-            this.Cancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Cancel.Location = new System.Drawing.Point(18, 348);
-            this.Cancel.Name = "Cancel";
-            this.Cancel.Size = new System.Drawing.Size(138, 54);
-            this.Cancel.TabIndex = 23;
-            this.Cancel.Text = "Cancel";
-            this.Cancel.UseVisualStyleBackColor = false;
-            this.Cancel.Click += new System.EventHandler(this.Cancel_Click);
             // 
             // BookingForm
             // 
@@ -396,7 +406,7 @@ namespace Booking_system
         private ColorTextBox IDBox;
         private ColorTextBox SurnameBox;
         private ColorTextBox NameBox;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button Reserve;
         private System.Windows.Forms.Label Configuration;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label8;

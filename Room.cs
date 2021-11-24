@@ -12,6 +12,7 @@ namespace Booking_system
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int RoomID { get; set; }
         [Required]
+        [Index("IX_UniqueConstraint", 1, IsUnique = true)]
         public int Number { get; set; }
 
         [Required]

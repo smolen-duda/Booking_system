@@ -110,7 +110,7 @@ namespace Booking_system
                     List<Room> temp = new List<Room>();
                     foreach (int i in configuration)
                     {
-                        List<Room> rooms=db.Rooms.Where(r => r.NumberOfBeds == i).ToList();
+                        List<Room> rooms=db.Rooms.Include("Reservations").Where(r => r.NumberOfBeds == i).ToList();
                         if (rooms.Any())
                         {
                             bool isDone=IsUsedIfNotThenAdd(rooms, temp, from, to);
@@ -120,12 +120,18 @@ namespace Booking_system
                                 break;
                             }
                         }
-                        
+                        else
+                        {
+                            temp.Clear();
+                            break;
+                        }
+
                     }
                     if (temp.Count != 0)
                     {
                         possibleRooms.Add(temp);
                     }
+                    
                 }
             }
             return possibleRooms;
@@ -160,7 +166,7 @@ namespace Booking_system
 
             using (Context db = new Context())
             {
-                bool condition = db.Reservations.Where(r => r.Rooms.Select(ro=>ro.RoomID).Contains(room.RoomID) && (from>r.FromDate || to<r.ToDate)).Any();
+                bool condition = db.Reservations.Where(r => r.Rooms.Select(ro=>ro.RoomID).Contains(room.RoomID) && (from>r.ToDate || to<r.FromDate)).Any();
                 if (!condition)
                 {
                     availability = true;
@@ -168,6 +174,23 @@ namespace Booking_system
             }
 
             return availability;
+        }
+
+        public void MakeReservation(User user, Reservation reservation, List<Room> rooms)
+        {
+            using(Context db = new Context())
+            {
+                db.Users.Attach(user);
+                foreach(Room room in rooms)
+                {
+                    db.Rooms.Attach(room);
+                }
+                db.Reservations.Add(reservation);
+
+                db.SaveChanges();
+                MessageBox.Show("Reservation is made.");
+                
+            }
         }
         
 

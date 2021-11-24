@@ -59,8 +59,11 @@ namespace Booking_system
             else
             {
                 BorderColor = Color.Gray;
+                
             }
         }
+
+       
     }
 }
 

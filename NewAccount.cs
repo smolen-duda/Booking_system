@@ -31,6 +31,8 @@ namespace Booking_system
             try
             {
                 dbManager.CreateNewAccount(user);
+                MessageBox.Show("Account created.");
+                this.Close();
             }
             catch(Exception error)
             {

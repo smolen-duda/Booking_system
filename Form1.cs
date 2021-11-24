@@ -52,8 +52,28 @@ namespace Booking_system
                                             PhoneNumber = "666222333", Email = "jan.kowalski@mail.com" };
             BookingForm bookingForm = new BookingForm(this,user);
             bookingForm.Show();
+
+            
         }
 
+        /*using (Context db = new Context())
+           {
+               List<Room> rooms = new List<Room>();
+               rooms.Add(new Room() { Fee = 100, Number = 101, NumberOfBeds = 2 });
+               rooms.Add(new Room() { Fee = 80, Number = 102, NumberOfBeds = 3 });
+               rooms.Add(new Room() { Fee = 80, Number = 103, NumberOfBeds = 3 });
+               rooms.Add(new Room() { Fee = 50, Number = 104, NumberOfBeds = 5 });
+               rooms.Add(new Room() { Fee = 110, Number = 201, NumberOfBeds = 1 });
+               rooms.Add(new Room() { Fee = 110, Number = 202, NumberOfBeds = 1 });
+               rooms.Add(new Room() { Fee = 70, Number =203, NumberOfBeds = 2 });
+               rooms.Add(new Room() { Fee = 80, Number = 204, NumberOfBeds = 3 });
+               rooms.Add(new Room() { Fee = 110, Number = 301, NumberOfBeds = 1 });
 
+               foreach (Room room in rooms)
+               {
+                   db.Rooms.Add(room);
+               }
+               db.SaveChanges();
+           }*/
     }
 }
