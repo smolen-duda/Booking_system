@@ -352,7 +352,8 @@ namespace Booking_system
             this.EndDate.Name = "EndDate";
             this.EndDate.Size = new System.Drawing.Size(273, 27);
             this.EndDate.TabIndex = 1;
-            this.EndDate.Value = System.DateTime.UtcNow.AddDays(1);
+            this.EndDate.Value = new System.DateTime(2021, 11, 26, 13, 2, 27, 127);
+            this.EndDate.ValueChanged += new System.EventHandler(this.EndDate_ValueChanged);
             // 
             // StartDate
             // 
@@ -361,7 +362,7 @@ namespace Booking_system
             this.StartDate.Name = "StartDate";
             this.StartDate.Size = new System.Drawing.Size(276, 27);
             this.StartDate.TabIndex = 0;
-            this.StartDate.Value = System.DateTime.UtcNow;
+            this.StartDate.Value = new System.DateTime(2021, 11, 25, 13, 2, 27, 128);
             this.StartDate.ValueChanged += new System.EventHandler(this.StartDate_ValueChanged);
             // 
             // BookingForm

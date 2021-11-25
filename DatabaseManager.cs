@@ -146,11 +146,11 @@ namespace Booking_system
             }
             else
             {
-                rooms.RemoveAt(0);
-                if (rooms.Count != 0)
+                List<Room> roomsCopy = new List<Room>(rooms);
+                roomsCopy.RemoveAt(0);
+                if (roomsCopy.Count != 0)
                 {
-                    IsUsedIfNotThenAdd(rooms, choosenRooms, from, to);
-                    return true;
+                   return IsUsedIfNotThenAdd(roomsCopy, choosenRooms, from, to);
                 }
                 else
                 {
@@ -166,14 +166,49 @@ namespace Booking_system
 
             using (Context db = new Context())
             {
-                bool condition = db.Reservations.Where(r => r.Rooms.Select(ro=>ro.RoomID).Contains(room.RoomID) && (from>r.ToDate || to<r.FromDate)).Any();
-                if (!condition)
+
+                //bool condition = db.Reservations.Where(r => r.Rooms.Select(ro=>ro.RoomID).Contains(room.RoomID) && (from>r.ToDate || to<r.FromDate)).Any();
+                
+                List<Reservation> reservations = db.Reservations.Where(r => r.Rooms.Select(ro => ro.RoomID).Contains(room.RoomID) && r.ToDate >= from).ToList();
+                bool condition=Availability(reservations, from, to);
+
+                if (condition)
                 {
                     availability = true;
                 }
             }
 
             return availability;
+        }
+
+        private bool Availability(List<Reservation> reservations, DateTime from,DateTime to)
+        {
+            DateTime start;
+            DateTime end;
+            foreach(Reservation reservation in reservations)
+            {
+                if(from<reservation.FromDate.Date)
+                {
+                    start = reservation.FromDate.Date;
+                }
+                else
+                {
+                    start = from;
+                }
+                if(to<reservation.ToDate.Date)
+                {
+                    end = to;
+                }
+                else
+                {
+                    end = reservation.ToDate.Date;
+                }
+                if(start<end)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         public void MakeReservation(User user, Reservation reservation, List<Room> rooms)

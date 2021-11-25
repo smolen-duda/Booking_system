@@ -59,6 +59,9 @@ namespace Booking_system
         private void StartDate_ValueChanged(object sender, EventArgs e)
         {
             EndDate.Value = StartDate.Value.AddDays(1);
+
+            RoomsPanel.Hide();
+            ReservationPanel.Hide();
         }
 
         private void Check_Click(object sender, EventArgs e)
@@ -76,8 +79,8 @@ namespace Booking_system
             {
                 int people = Int16.Parse(NumberOfPeopleBox.Text);
                 int numberOfRooms = Int16.Parse(NumberOfRoomsBox.Text);
-                DateTime from = StartDate.Value;
-                DateTime to = EndDate.Value;
+                DateTime from = StartDate.Value.Date;
+                DateTime to = EndDate.Value.Date;
                 DatabaseManager dbManager = new DatabaseManager();
 
 
@@ -317,8 +320,8 @@ namespace Booking_system
         {
             DatabaseManager dbManager = new DatabaseManager();
             Reservation reservation = new Reservation();
-            reservation.FromDate = StartDate.Value;
-            reservation.ToDate = EndDate.Value;
+            reservation.FromDate = StartDate.Value.Date;
+            reservation.ToDate = EndDate.Value.Date;
             reservation.User = LoggedUser;
             reservation.Rooms = configuration;
             reservation.Fee =choosenPrice;
@@ -327,6 +330,12 @@ namespace Booking_system
             BookingForm bookingForm = new BookingForm(this,LoggedUser);
             this.Close();
             bookingForm.Show();
+        }
+
+        private void EndDate_ValueChanged(object sender, EventArgs e)
+        {
+            RoomsPanel.Hide();
+            ReservationPanel.Hide();
         }
     }
 }
