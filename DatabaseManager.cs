@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Linq.Dynamic.Core;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using System.Net.Mail;
+using System.Net;
 
 namespace Booking_system
 {
@@ -77,6 +79,8 @@ namespace Booking_system
                 {
                     db.Set(accountType).Add(person);
                     db.SaveChanges();
+
+                    MessageBox.Show("Account created.");
                 }
                 catch (Exception e)
                 {
@@ -215,19 +219,67 @@ namespace Booking_system
         {
             using(Context db = new Context())
             {
-                db.Users.Attach(user);
-                foreach(Room room in rooms)
+                try
                 {
-                    db.Rooms.Attach(room);
-                }
-                db.Reservations.Add(reservation);
+                    db.Users.Attach(user);
+                    foreach (Room room in rooms)
+                    {
+                        db.Rooms.Attach(room);
+                    }
+                    db.Reservations.Add(reservation);
 
-                db.SaveChanges();
-                MessageBox.Show("Reservation is made.");
+                    db.SaveChanges();
+                    try
+                    {
+                        SendMail(reservation);
+                    }
+                    catch(Exception e)
+                    {
+                        throw;
+                    }
+
+                    MessageBox.Show("Reservation is made.");
+                }
+                catch(Exception ex)
+                {
+                    throw;
+                }
                 
             }
         }
         
 
+        //This method sends an email to the user with confimation of the reservation.
+
+        private void SendMail(Reservation reservation)
+        {
+            try
+            {
+                SmtpClient clientDetails = new SmtpClient();
+                // here is clientDetails.Port 
+                // here is clientDetails.Host 
+                clientDetails.DeliveryMethod = SmtpDeliveryMethod.Network;
+                clientDetails.EnableSsl = true;
+                clientDetails.UseDefaultCredentials = false;
+                // Here are clientDetails.Credentials.
+
+                MailMessage mailDetails = new MailMessage();
+                // mailDetails.From = here is an email adress of sender.
+                mailDetails.To.Add(reservation.User.Email);
+                mailDetails.Subject = "Reservation " + reservation.ReservationID;
+                mailDetails.IsBodyHtml = false;
+                string message = "Dear " + reservation.User.Name + " " + reservation.User.Surname + "\n" +
+                    "your reservation from "+reservation.FromDate.ToString()+" to "+reservation.ToDate.ToString()+" is confirmed.\n"+
+                    "Yours sincerely\n"+
+                    "Hotel service";
+                mailDetails.Body = message;
+
+                clientDetails.Send(mailDetails);
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
+        }
     }
 }

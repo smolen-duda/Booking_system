@@ -28,27 +28,12 @@ namespace Booking_system
 
             User user = new User() { Name = NameBox.Text, Surname = SurnameBox.Text, ID = IDBox.Text, PhoneNumber = PhoneBox.Text, Email = EmailBox.Text };
             user.SetPassword(PasswordBox.Text);
-            try
-            {
-                dbManager.CreateNewAccount(user);
-                MessageBox.Show("Account created.");
-                this.Close();
-            }
-            catch(Exception error)
-            {
-                MessageBox.Show(error.Message);
-            }
-            
+
+            dbManager.CreateNewAccount(user);
+            this.Close();
+
+
 
         }
-
-      /*  private void NewAccount_Load(object sender, EventArgs e)
-        {
-            if(String.IsNullOrEmpty(NameBox.Text) || String.IsNullOrEmpty(Surname.Text) || String.IsNullOrEmpty(ID.Text) 
-                || String.IsNullOrEmpty(Password.Text) || String.IsNullOrEmpty(PasswordCheck.Text))
-            {
-                SignUp.Enabled = false;
-            }
-        }*/
     }
 }

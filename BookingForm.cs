@@ -52,8 +52,8 @@ namespace Booking_system
             configuration.Clear();
             rooms.Clear();
             buttons.Clear();
+            StartingForm.ShowDialog();
             this.Close();
-            StartingForm.Show();
         }
 
         private void StartDate_ValueChanged(object sender, EventArgs e)
@@ -327,7 +327,7 @@ namespace Booking_system
             reservation.Fee =choosenPrice;
             dbManager.MakeReservation(LoggedUser, reservation, configuration);
 
-            BookingForm bookingForm = new BookingForm(this,LoggedUser);
+            BookingForm bookingForm = new BookingForm(StartingForm,LoggedUser);
             this.Close();
             bookingForm.Show();
         }
