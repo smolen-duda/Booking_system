@@ -215,6 +215,8 @@ namespace Booking_system
             return true;
         }
 
+
+        // This method adds new reservation.
         public void MakeReservation(User user, Reservation reservation, List<Room> rooms)
         {
             using(Context db = new Context())
@@ -279,6 +281,29 @@ namespace Booking_system
             catch(Exception ex)
             {
                 throw;
+            }
+        }
+
+        // This method updates user data if the user changes some personal data during making a reservation.
+
+        public void UpdateUserData(User user, string name,string surname, string id, string phone, string mail)
+        {
+            using (Context db = new Context())
+            {
+                db.Users.Attach(user);
+                user.Name = name;
+                user.Surname = surname;
+                user.ID = id;
+                user.PhoneNumber = phone;
+                user.Email = mail;
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             }
         }
     }

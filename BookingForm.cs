@@ -13,7 +13,7 @@ namespace Booking_system
 {
     public partial class BookingForm : Form
     {
-        private bool isChanged = false;
+        private bool isChanged = false; // This variable checks if the user changed some data during making a reservation.
         private List<Room> configuration = new List<Room>();
         private DisableButtonEvent disable = new DisableButtonEvent();
         private List<Button> buttons = new List<Button>();
@@ -52,7 +52,8 @@ namespace Booking_system
             configuration.Clear();
             rooms.Clear();
             buttons.Clear();
-            StartingForm.ShowDialog();
+            StartingForm.RemoveOwnedForm(this);
+            StartingForm.Show();
             this.Close();
         }
 
@@ -232,11 +233,6 @@ namespace Booking_system
             isChanged = true;
         }
 
-        private void IDBox_TextChanged(object sender, EventArgs e)
-        {
-            IsTextBoxEmpty(IDBox, sender, e);
-            isChanged = true;
-        }
 
         private void PhoneBox_TextChanged(object sender, EventArgs e)
         {
@@ -319,6 +315,11 @@ namespace Booking_system
         private void Reserve_Click(object sender, EventArgs e)
         {
             DatabaseManager dbManager = new DatabaseManager();
+            if (isChanged = true)
+            {
+                dbManager.UpdateUserData(LoggedUser, NameBox.Text, SurnameBox.Text, IDBox.Text, PhoneBox.Text, EmailBox.Text);
+            }
+
             Reservation reservation = new Reservation();
             reservation.FromDate = StartDate.Value.Date;
             reservation.ToDate = EndDate.Value.Date;

@@ -133,9 +133,10 @@ namespace Booking_system
             this.label10.ForeColor = System.Drawing.Color.Red;
             this.label10.Location = new System.Drawing.Point(18, 174);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(447, 20);
+            this.label10.Size = new System.Drawing.Size(600, 20);
             this.label10.TabIndex = 22;
-            this.label10.Text = "Warning! All changes provided above will be saved in your profile.";
+            this.label10.Text = "Warning! All changes provided above will be saved in your profile. ID cannot be c" +
+    "hanged.";
             // 
             // PhoneBox
             // 
@@ -159,11 +160,11 @@ namespace Booking_system
             // IDBox
             // 
             this.IDBox.BorderColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.IDBox.Enabled = false;
             this.IDBox.Location = new System.Drawing.Point(46, 74);
             this.IDBox.Name = "IDBox";
             this.IDBox.Size = new System.Drawing.Size(262, 27);
             this.IDBox.TabIndex = 19;
-            this.IDBox.TextChanged += new System.EventHandler(this.IDBox_TextChanged);
             this.IDBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.IDBox_KeyPress);
             // 
             // SurnameBox
