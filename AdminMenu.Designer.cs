@@ -83,6 +83,7 @@ namespace Booking_system
             this.FindReservation.TabIndex = 3;
             this.FindReservation.Text = "Find Reservation";
             this.FindReservation.UseVisualStyleBackColor = true;
+            this.FindReservation.Click += new System.EventHandler(this.FindReservation_Click);
             // 
             // MakeReservation
             // 
@@ -142,7 +143,7 @@ namespace Booking_system
             this.DataView.Size = new System.Drawing.Size(858, 258);
             this.DataView.TabIndex = 10;
             this.DataView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataView_CellContentClick);
-            this.DataView.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler (this.DataView_EditingControlShowing);
+            this.DataView.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.DataView_EditingControlShowing);
             // 
             // Reservations
             // 

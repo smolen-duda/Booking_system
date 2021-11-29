@@ -348,7 +348,15 @@ namespace Booking_system
         {
             using (Context db = new Context())
             {
-                return db.Reservations.Include("Rooms").Include("User").Where(r => r.ReservationID == reservationID).First();
+                List<Reservation> reservations = db.Reservations.Include("Rooms").Include("User").Where(r => r.ReservationID == reservationID).ToList();
+                if (reservations.Count != 0)
+                {
+                    return reservations[0];
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
 
@@ -358,7 +366,14 @@ namespace Booking_system
         {
             using (Context db = new Context())
             {
-                return db.Reservations.Include("Rooms").Where(r => r.ReservationID == reservation.ReservationID).First().Rooms.ToList();
+                if (reservation != null)
+                {
+                    return db.Reservations.Include("Rooms").Where(r => r.ReservationID == reservation.ReservationID).First().Rooms.ToList();
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
 
@@ -375,6 +390,7 @@ namespace Booking_system
                 }
                 else
                 {
+                    db.Reservations.Attach(reservation);
                     reservation.Status = "Paid";
                     db.SaveChanges();
                 }

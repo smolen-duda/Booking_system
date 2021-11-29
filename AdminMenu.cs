@@ -21,6 +21,8 @@ namespace Booking_system
         private List<string> data;
         private int CurrentClientID;
         private DataGridViewComboBoxEditingControl cbec = null;
+        private string button;
+        private int reservationData;
 
         private bool isSourceChanged = false;
 
@@ -81,18 +83,27 @@ namespace Booking_system
 
         private void FindClient_Click(object sender, EventArgs e)
         {
+            button = "client";
             isSourceChanged = false;
             data = DataBox.Text.ToLower().Trim().Split(" ").ToList();
             DatabaseManager dbManager = new DatabaseManager();
             clients = new BindingList<User>(dbManager.FindClient(data));
             List<object> clientsToDisplay = ClientsToDisplayForm();
 
-
+            if (clientsToDisplay.Count == 0)
+            {
+                clientsToDisplay.Add(empty);
+            }
             source.DataSource = clientsToDisplay;
             DataView.DataSource =source;
             DataView.Columns["Reservations"].Visible = true;
             DataView.Columns["Action"].Visible = false;
+               
             DataView.Columns["Reservations"].DisplayIndex = 6;
+            if (clientsToDisplay.Contains(empty))
+            {
+                DisableButton();
+            }
         }
 
         //
@@ -138,10 +149,26 @@ namespace Booking_system
                 confirmationForm.ShowDialog();
 
                 DatabaseManager dbManager = new DatabaseManager();
-                clients = new BindingList<User>(dbManager.FindClient(data));
-                source.DataSource = ReservationsToDisplayForm(CurrentClientID);
-                DataView.DataSource = source;
-                DataView.Columns["Action"].DisplayIndex = 8;
+                if (button == "client")
+                {
+                    clients = new BindingList<User>(dbManager.FindClient(data));
+                    source.DataSource = ReservationsToDisplayForm(clients[CurrentClientID].Reservations.ToList());
+                    DataView.DataSource = source;
+                    DataView.Columns["Action"].DisplayIndex = 8;
+                }
+                else if(button=="reservation")
+                {
+                    Reservation reservation= dbManager.FindReservation(reservationData);
+                    List<Reservation> reservationList = new List<Reservation>();
+                    reservationList.Add(reservation);
+                    source.DataSource = ReservationsToDisplayForm(reservationList);
+                    DataView.DataSource = source;
+                    DataView.Columns["Action"].DisplayIndex = 8;
+                }
+                else if(button=="room")
+                {
+
+                }
                 DataView.Refresh();
             }
 
@@ -167,7 +194,7 @@ namespace Booking_system
                         DataView.Columns["Action"].Visible = true;
 
 
-                        source.DataSource = ReservationsToDisplayForm(row);
+                        source.DataSource = ReservationsToDisplayForm(clients[row].Reservations.ToList());
                         DataView.DataSource = source;
                         DataView.Columns["Action"].DisplayIndex = 8;
                         DataView.Refresh();
@@ -178,6 +205,7 @@ namespace Booking_system
                 isSourceChanged = true;
             }
         }
+
 
         // It creates a new list with objects to display in DataGridView.
 
@@ -194,34 +222,75 @@ namespace Booking_system
 
 
         // It creates a new list with objects to display in DataGridView.
-        private List<object> ReservationsToDisplayForm(int row)
+        private List<object> ReservationsToDisplayForm(List<Reservation> reservations)
         {
             List<object> reservationsToDisplay = new List<object>();
-            foreach (Reservation r in clients[row].Reservations)
+
+            if (reservations[0]!=null)
             {
-                DatabaseManager dbManager = new DatabaseManager();
-                List<Room> rooms=dbManager.GetRoomsForReservation(r);
-                string str = "";
-                int counter = 0;
-
-                foreach(Room room in rooms)
+                foreach (Reservation r in reservations)
                 {
-                    if (counter < 2)
+                    DatabaseManager dbManager = new DatabaseManager();
+                    List<Room> rooms = dbManager.GetRoomsForReservation(r);
+                    string str = "";
+                    int counter = 0;
+
+                    foreach (Room room in rooms)
                     {
-                        str += room.Number + " ";
+                        if (counter < 2)
+                        {
+                            str += room.Number + " ";
+                        }
+                        else
+                        {
+                            counter = 0;
+                            str += room.Number + "\n";
+                        }
                     }
-                    else
-                    {
-                        counter = 0;
-                        str+= room.Number + "\n";
-                    }
+
+
+
+                    object temp = new { ReservationID = r.ReservationID, From = r.FromDate, To = r.ToDate, DateOfCreating = r.DateOfReservationMaking, Status = r.Status, Fee = r.Fee, Rooms = str };
+                    reservationsToDisplay.Add(temp);
                 }
-
-
-                object temp = new { ReservationID=r.ReservationID, From=r.FromDate, To=r.ToDate, DateOfCreating=r.DateOfReservationMaking, Status=r.Status, Fee=r.Fee,Rooms=str};
+            }
+            else
+            {
+                object temp = new { ReservationID = "", From = "", To = "", DateOfCreating = "", Status = "", Fee = "", Rooms = "" };
                 reservationsToDisplay.Add(temp);
+                DataView.Columns["Action"].Visible = false;
             }
             return reservationsToDisplay;
+        }
+
+        private void FindReservation_Click(object sender, EventArgs e)
+        {
+            button = "reservation";
+            DatabaseManager dbManager = new DatabaseManager();
+            Reservation reservation;
+            if(Int32.TryParse(DataBox.Text.Trim(), out reservationData))
+            {
+                isSourceChanged = false;
+                reservation =dbManager.FindReservation(reservationData);
+
+                DataView.Columns["Reservations"].Visible = false;
+                DataView.Columns["Action"].Visible = true;
+
+                List<Reservation> reservationList = new List<Reservation>();
+                reservationList.Add(reservation);
+
+                source.DataSource = ReservationsToDisplayForm(reservationList);
+                DataView.DataSource = source;
+                DataView.Columns["Action"].DisplayIndex = 8;
+                DataView.Refresh();
+            }
+            else
+            {
+                MessageBox.Show("ReservationID has to be an integer.");
+            }
+            isSourceChanged = true;
+            
+
         }
     }
 }
