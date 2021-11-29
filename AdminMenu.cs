@@ -16,6 +16,13 @@ namespace Booking_system
         private Administrator LoggedAdmin;
         private const string description = "Insert Name or Surname or ID/Reservation ID/ Room Number.";
         private object empty = new { Name = "", Surname = "", ID = "", Email = "", PhoneNumber = "" };
+        private BindingList<User> clients = new BindingList<User>();
+        private BindingSource source = new BindingSource();
+        private List<string> data;
+        private int CurrentClientID;
+        private DataGridViewComboBoxEditingControl cbec = null;
+
+        private bool isSourceChanged = false;
 
 
         public AdminMenu(Form form, ILogable admin)
@@ -25,6 +32,8 @@ namespace Booking_system
             LoggedAdmin = (Administrator)admin;
             Title.Text = "You are logged as " + LoggedAdmin.Name + " " + LoggedAdmin.Surname;
             BindGrid();
+            clients.Clear();
+            isSourceChanged = false;
         }
 
         private void BindGrid()
@@ -32,7 +41,7 @@ namespace Booking_system
 
             DataView.DataSource = new List<object>() { empty };
 
-            DataView.Columns["Reservations"].DisplayIndex = 5;
+            DataView.Columns["Reservations"].DisplayIndex = 6;
 
         }
 
@@ -72,20 +81,147 @@ namespace Booking_system
 
         private void FindClient_Click(object sender, EventArgs e)
         {
-            List<string> data = DataBox.Text.ToLower().Trim().Split(" ").ToList();
+            isSourceChanged = false;
+            data = DataBox.Text.ToLower().Trim().Split(" ").ToList();
             DatabaseManager dbManager = new DatabaseManager();
-            DataView.DataSource = dbManager.FindClient(data);
+            clients = new BindingList<User>(dbManager.FindClient(data));
+            List<object> clientsToDisplay = ClientsToDisplayForm();
+
+
+            source.DataSource = clientsToDisplay;
+            DataView.DataSource =source;
+            DataView.Columns["Reservations"].Visible = true;
+            DataView.Columns["Action"].Visible = false;
+            DataView.Columns["Reservations"].DisplayIndex = 6;
         }
 
-        private void DataView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        //
+        //
+        //
+        //
+        //
+
+        // Those methods are for event that occures when SelectedItem in column Action is changed.
+
+        private void DataView_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
-            int row=e.RowIndex;
-            int col = e.ColumnIndex;
-            DataGridViewDisableButtonCell btn = (DataGridViewDisableButtonCell)DataView.Rows[row].Cells[col];
-            if (btn.Enabled)
+            if (e.Control is DataGridViewComboBoxEditingControl)
             {
-                MessageBox.Show("Click!");
+                cbec = e.Control as DataGridViewComboBoxEditingControl;
+                cbec.SelectedIndexChanged -= Cbec_SelectedIndexChanged;
+                cbec.SelectedIndexChanged += Cbec_SelectedIndexChanged;
             }
+        }
+
+        private void Cbec_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int currentRow = this.DataView.CurrentCell.RowIndex;
+            int reservationID = Int32.Parse(this.DataView.Rows[currentRow].Cells[2].Value.ToString());
+            if (cbec != null)
+            {
+                string action = cbec.SelectedItem.ToString();
+                string message = "An error occures. Please try again.";
+                int option = 0;
+                if (cbec.SelectedItem == cbec.Items[0])
+                {
+                    message = "You are changing the status of the " +
+                        "reservation to \"Paid\". Are you sure?";
+                    option = 1;
+                }
+                else if (cbec.SelectedItem == cbec.Items[1])
+                {
+                    message = "Are you sure that you want " +
+                        "to cancel this reservation?";
+                    option = 2;
+                }
+                ConfirmationForm confirmationForm = new ConfirmationForm(message,option,reservationID);
+                confirmationForm.ShowDialog();
+
+                DatabaseManager dbManager = new DatabaseManager();
+                clients = new BindingList<User>(dbManager.FindClient(data));
+                source.DataSource = ReservationsToDisplayForm(CurrentClientID);
+                DataView.DataSource = source;
+                DataView.Columns["Action"].DisplayIndex = 8;
+                DataView.Refresh();
+            }
+
+        }
+
+
+
+
+
+
+        private void DataView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {   if (isSourceChanged == false)
+            {
+                int row = e.RowIndex;
+                int col = e.ColumnIndex;
+                if (row > -1 && col > -1)
+                {
+                    DataGridViewDisableButtonCell btn = (DataGridViewDisableButtonCell)DataView.Rows[row].Cells[col];
+
+                    if (btn.Enabled)
+                    {
+                        DataView.Columns["Reservations"].Visible = false;
+                        DataView.Columns["Action"].Visible = true;
+
+
+                        source.DataSource = ReservationsToDisplayForm(row);
+                        DataView.DataSource = source;
+                        DataView.Columns["Action"].DisplayIndex = 8;
+                        DataView.Refresh();
+
+                        CurrentClientID = row;
+                    }
+                }
+                isSourceChanged = true;
+            }
+        }
+
+        // It creates a new list with objects to display in DataGridView.
+
+        private List<object> ClientsToDisplayForm()
+        {
+            List<object> clientsToDisplay = new List<object>();
+            foreach(User o in clients)
+            {
+                object temp = new { Name = o.Name, Surname = o.Surname, ID = o.ID, PhoneNumber = o.PhoneNumber, Email = o.Email };
+                clientsToDisplay.Add(temp);
+            }
+            return clientsToDisplay;
+        }
+
+
+        // It creates a new list with objects to display in DataGridView.
+        private List<object> ReservationsToDisplayForm(int row)
+        {
+            List<object> reservationsToDisplay = new List<object>();
+            foreach (Reservation r in clients[row].Reservations)
+            {
+                DatabaseManager dbManager = new DatabaseManager();
+                List<Room> rooms=dbManager.GetRoomsForReservation(r);
+                string str = "";
+                int counter = 0;
+
+                foreach(Room room in rooms)
+                {
+                    if (counter < 2)
+                    {
+                        str += room.Number + " ";
+                    }
+                    else
+                    {
+                        counter = 0;
+                        str+= room.Number + "\n";
+                    }
+                }
+
+
+                object temp = new { ReservationID=r.ReservationID, From=r.FromDate, To=r.ToDate, DateOfCreating=r.DateOfReservationMaking, Status=r.Status, Fee=r.Fee,Rooms=str};
+                reservationsToDisplay.Add(temp);
+            }
+            return reservationsToDisplay;
         }
     }
 }

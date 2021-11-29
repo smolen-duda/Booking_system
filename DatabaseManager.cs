@@ -336,9 +336,66 @@ namespace Booking_system
                          return true;
                      }
                 };
-                List<User> clients = db.Users.Where(p).ToList();
+                List<User> clients = db.Users.Include("Reservations").Where(p).ToList();
                 return clients;
             }
         }
+
+
+        //Thismethod finds the reservation with the given id.
+
+        public Reservation FindReservation(int reservationID)
+        {
+            using (Context db = new Context())
+            {
+                return db.Reservations.Include("Rooms").Include("User").Where(r => r.ReservationID == reservationID).First();
+            }
+        }
+
+        //This method finds all rooms for the given reservation.
+
+        public List<Room> GetRoomsForReservation(Reservation reservation)
+        {
+            using (Context db = new Context())
+            {
+                return db.Reservations.Include("Rooms").Where(r => r.ReservationID == reservation.ReservationID).First().Rooms.ToList();
+            }
+        }
+
+        // This method is for paying for the reservations. Only admins have access to it.
+
+        public void PayTheFee(int reservationID)
+        {
+            using (Context db = new Context())
+            {
+                Reservation reservation = FindReservation(reservationID);
+                if(reservation.Status=="Paid")
+                {
+                    MessageBox.Show("The reservation is already paid.");
+                }
+                else
+                {
+                    reservation.Status = "Paid";
+                    db.SaveChanges();
+                }
+            }
+        }
+
+
+        //This method is for canceling reservations.
+
+        public void CancelReservation(int reservationID)
+        {
+            using (Context db = new Context())
+            {
+                Reservation reservation = FindReservation(reservationID);
+                db.Reservations.Attach(reservation);
+                db.Reservations.Remove(reservation);
+
+                db.SaveChanges();
+            }
+
+        }
+
     }
 }

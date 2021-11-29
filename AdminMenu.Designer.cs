@@ -40,6 +40,7 @@ namespace Booking_system
             this.DataBox = new System.Windows.Forms.TextBox();
             this.DataView = new System.Windows.Forms.DataGridView();
             this.Reservations = new Booking_system.DataGridViewDisableButtonColumn();
+            this.Action = new System.Windows.Forms.DataGridViewComboBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.DataView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -132,7 +133,8 @@ namespace Booking_system
             // 
             this.DataView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DataView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Reservations});
+            this.Reservations,
+            this.Action});
             this.DataView.Location = new System.Drawing.Point(87, 236);
             this.DataView.Name = "DataView";
             this.DataView.RowHeadersWidth = 51;
@@ -140,6 +142,7 @@ namespace Booking_system
             this.DataView.Size = new System.Drawing.Size(858, 258);
             this.DataView.TabIndex = 10;
             this.DataView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataView_CellContentClick);
+            this.DataView.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler (this.DataView_EditingControlShowing);
             // 
             // Reservations
             // 
@@ -149,6 +152,17 @@ namespace Booking_system
             this.Reservations.Text = "See";
             this.Reservations.UseColumnTextForButtonValue = true;
             this.Reservations.Width = 125;
+            // 
+            // Action
+            // 
+            this.Action.HeaderText = "Action";
+            this.Action.Items.AddRange(new object[] {
+            "Pay reservation fee",
+            "Cancel reservation"});
+            this.Action.MinimumWidth = 6;
+            this.Action.Name = "Action";
+            this.Action.Visible = false;
+            this.Action.Width = 180;
             // 
             // AdminMenu
             // 
@@ -189,5 +203,6 @@ namespace Booking_system
         private System.Windows.Forms.TextBox DataBox;
         private System.Windows.Forms.DataGridView DataView;
         private DataGridViewDisableButtonColumn Reservations;
+        private System.Windows.Forms.DataGridViewComboBoxColumn Action;
     }
 }
