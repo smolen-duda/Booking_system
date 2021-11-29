@@ -32,6 +32,7 @@ namespace Booking_system
 
             disable.Writing += ShouldBeEnabled;
 
+            StartDate.Value = DateTime.UtcNow;
             EndDate.Value = StartDate.Value.AddDays(1);
 
             this.ReservationPanel.Hide();
@@ -315,7 +316,7 @@ namespace Booking_system
         private void Reserve_Click(object sender, EventArgs e)
         {
             DatabaseManager dbManager = new DatabaseManager();
-            if (isChanged = true)
+            if (isChanged == true)
             {
                 dbManager.UpdateUserData(LoggedUser, NameBox.Text, SurnameBox.Text, IDBox.Text, PhoneBox.Text, EmailBox.Text);
             }

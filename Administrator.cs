@@ -21,6 +21,10 @@ namespace Booking_system
         [Required]
         public string Surname { get; set; }
 
+        public string PhoneNumber { get; set; }
+
+        public string Email { get; set; }
+
         [Required]
         private string Password { get; set; }
 

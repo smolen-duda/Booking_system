@@ -24,7 +24,7 @@ namespace Booking_system
 
 
 
-        // This method finds person in a respective table in the database.
+        // This method finds person with the given ID in a respective table in the database. 
         // All classes mantaining person's data must implement interface ILogable.
 
         public ILogable Find(ILogable user)
@@ -63,6 +63,7 @@ namespace Booking_system
                 UserDidNotFind(str);
             }
         }
+
 
 
         //This method adds a new account in a respective table in the database.
@@ -170,9 +171,6 @@ namespace Booking_system
 
             using (Context db = new Context())
             {
-
-                //bool condition = db.Reservations.Where(r => r.Rooms.Select(ro=>ro.RoomID).Contains(room.RoomID) && (from>r.ToDate || to<r.FromDate)).Any();
-                
                 List<Reservation> reservations = db.Reservations.Where(r => r.Rooms.Select(ro => ro.RoomID).Contains(room.RoomID) && r.ToDate >= from).ToList();
                 bool condition=Availability(reservations, from, to);
 
@@ -304,6 +302,42 @@ namespace Booking_system
                 {
                     MessageBox.Show(ex.Message);
                 }
+            }
+        }
+
+        //This method search for users which pass the criteria  given as a one string.
+        //It is used when the admin wants to find a given user.
+
+        public List<User> FindClient(List<string> data)
+        {
+            using (Context db = new Context())
+            {
+                Func<User, bool> p = u =>
+                {
+                     if (data.Count >= 3)
+                     {
+                         return data.Contains(u.Name.ToLower()) && data.Contains(u.Surname.ToLower()) && data.Contains(u.ID.ToLower());
+                     }
+                     else if (data.Count == 2)
+                     {
+                         return (data.Contains(u.Name.ToLower()) && data.Contains(u.Surname.ToLower()) && !data.Contains(u.ID.ToLower()))
+                         ||
+                         (data.Contains(u.Name.ToLower()) && !data.Contains(u.Surname.ToLower()) && data.Contains(u.ID.ToLower()))
+                         ||
+                         (!data.Contains(u.Name.ToLower()) && data.Contains(u.Surname.ToLower()) && data.Contains(u.ID.ToLower()));
+
+                     }
+                     else if (data.Count == 1)
+                     {
+                         return data.Contains(u.Name.ToLower()) || data.Contains(u.Surname.ToLower()) || data.Contains(u.ID.ToLower());
+                     }
+                     else
+                     {
+                         return true;
+                     }
+                };
+                List<User> clients = db.Users.Where(p).ToList();
+                return clients;
             }
         }
     }

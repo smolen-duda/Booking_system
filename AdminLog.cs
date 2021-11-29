@@ -73,8 +73,9 @@ namespace Booking_system
                 }
                 else
                 {
-                    AdminMenu adminMenu = new AdminMenu(StartingForm);
+                    AdminMenu adminMenu = new AdminMenu(StartingForm, admin);
                     adminMenu.Show();
+                    adminMenu.DisableButton();
                     this.Close();
                     StartingForm.Hide();
                 }
