@@ -7,6 +7,7 @@ using System.Linq.Dynamic.Core;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Net.Mail;
+using System.Data.Entity;
 using System.Net;
 
 namespace Booking_system
@@ -411,6 +412,24 @@ namespace Booking_system
                 db.SaveChanges();
             }
 
+        }
+
+        // This method finds romm with the given number
+
+        public Room FindRoom(int roomNumber)
+        {
+            using (Context db = new Context())
+            {
+                List<Room> rooms = db.Rooms.Include(r => r.Reservations.Select(res => res.User)).Where(r => r.Number == roomNumber).ToList();
+                if (rooms.Count!=0)
+                {
+                    return rooms[0];
+                }
+                else
+                {
+                    return null;
+                }
+            }
         }
 
     }

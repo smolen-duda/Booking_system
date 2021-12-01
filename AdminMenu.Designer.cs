@@ -34,7 +34,6 @@ namespace Booking_system
             this.FindRoom = new System.Windows.Forms.Button();
             this.FindReservation = new System.Windows.Forms.Button();
             this.MakeReservation = new System.Windows.Forms.Button();
-            this.CancelReservation = new System.Windows.Forms.Button();
             this.AddNewRoom = new System.Windows.Forms.Button();
             this.Title = new System.Windows.Forms.Label();
             this.DataBox = new System.Windows.Forms.TextBox();
@@ -74,6 +73,7 @@ namespace Booking_system
             this.FindRoom.TabIndex = 2;
             this.FindRoom.Text = "Find Room";
             this.FindRoom.UseVisualStyleBackColor = true;
+            this.FindRoom.Click += new System.EventHandler(this.FindRoom_Click);
             // 
             // FindReservation
             // 
@@ -87,25 +87,16 @@ namespace Booking_system
             // 
             // MakeReservation
             // 
-            this.MakeReservation.Location = new System.Drawing.Point(995, 208);
+            this.MakeReservation.Location = new System.Drawing.Point(995, 170);
             this.MakeReservation.Name = "MakeReservation";
             this.MakeReservation.Size = new System.Drawing.Size(148, 45);
             this.MakeReservation.TabIndex = 5;
             this.MakeReservation.Text = "Make Reservation";
             this.MakeReservation.UseVisualStyleBackColor = true;
             // 
-            // CancelReservation
-            // 
-            this.CancelReservation.Location = new System.Drawing.Point(995, 82);
-            this.CancelReservation.Name = "CancelReservation";
-            this.CancelReservation.Size = new System.Drawing.Size(148, 45);
-            this.CancelReservation.TabIndex = 6;
-            this.CancelReservation.Text = "Cancel Reservation";
-            this.CancelReservation.UseVisualStyleBackColor = true;
-            // 
             // AddNewRoom
             // 
-            this.AddNewRoom.Location = new System.Drawing.Point(995, 146);
+            this.AddNewRoom.Location = new System.Drawing.Point(995, 108);
             this.AddNewRoom.Name = "AddNewRoom";
             this.AddNewRoom.Size = new System.Drawing.Size(148, 45);
             this.AddNewRoom.TabIndex = 7;
@@ -175,7 +166,6 @@ namespace Booking_system
             this.Controls.Add(this.DataBox);
             this.Controls.Add(this.Title);
             this.Controls.Add(this.AddNewRoom);
-            this.Controls.Add(this.CancelReservation);
             this.Controls.Add(this.MakeReservation);
             this.Controls.Add(this.FindReservation);
             this.Controls.Add(this.FindRoom);
@@ -198,7 +188,6 @@ namespace Booking_system
         private System.Windows.Forms.Button FindRoom;
         private System.Windows.Forms.Button FindReservation;
         private System.Windows.Forms.Button MakeReservation;
-        private System.Windows.Forms.Button CancelReservation;
         private System.Windows.Forms.Button AddNewRoom;
         private System.Windows.Forms.Label Title;
         private System.Windows.Forms.TextBox DataBox;

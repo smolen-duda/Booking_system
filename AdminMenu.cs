@@ -17,12 +17,14 @@ namespace Booking_system
         private const string description = "Insert Name or Surname or ID/Reservation ID/ Room Number.";
         private object empty = new { Name = "", Surname = "", ID = "", Email = "", PhoneNumber = "" };
         private BindingList<User> clients = new BindingList<User>();
+        private Room currentRoom;
         private BindingSource source = new BindingSource();
         private List<string> data;
         private int CurrentClientID;
         private DataGridViewComboBoxEditingControl cbec = null;
         private string button;
         private int reservationData;
+        private int roomNumber;
 
         private bool isSourceChanged = false;
 
@@ -154,7 +156,7 @@ namespace Booking_system
                     clients = new BindingList<User>(dbManager.FindClient(data));
                     source.DataSource = ReservationsToDisplayForm(clients[CurrentClientID].Reservations.ToList());
                     DataView.DataSource = source;
-                    DataView.Columns["Action"].DisplayIndex = 8;
+                    DataView.Columns["Action"].DisplayIndex = 9;
                 }
                 else if(button=="reservation")
                 {
@@ -163,11 +165,15 @@ namespace Booking_system
                     reservationList.Add(reservation);
                     source.DataSource = ReservationsToDisplayForm(reservationList);
                     DataView.DataSource = source;
-                    DataView.Columns["Action"].DisplayIndex = 8;
+                    DataView.Columns["Action"].DisplayIndex = 9;
                 }
                 else if(button=="room")
                 {
-
+                    Room room= dbManager.FindRoom(roomNumber);
+                    List<Reservation> reservationList = room.Reservations.ToList();
+                    source.DataSource = ReservationsToDisplayForm(reservationList);
+                    DataView.DataSource = source;
+                    DataView.Columns["Action"].DisplayIndex = 9;
                 }
                 DataView.Refresh();
             }
@@ -180,7 +186,8 @@ namespace Booking_system
 
 
         private void DataView_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {   if (isSourceChanged == false)
+        {
+            if (isSourceChanged == false )
             {
                 int row = e.RowIndex;
                 int col = e.ColumnIndex;
@@ -193,13 +200,22 @@ namespace Booking_system
                         DataView.Columns["Reservations"].Visible = false;
                         DataView.Columns["Action"].Visible = true;
 
+                        if (button == "client")
+                        {
+                            source.DataSource = ReservationsToDisplayForm(clients[row].Reservations.ToList());
+                            DataView.DataSource = source;
+                            DataView.Columns["Client"].Visible = false;
 
-                        source.DataSource = ReservationsToDisplayForm(clients[row].Reservations.ToList());
-                        DataView.DataSource = source;
-                        DataView.Columns["Action"].DisplayIndex = 8;
+                            CurrentClientID = row;
+                        }
+                        else if(button=="room")
+                        {
+                            source.DataSource = ReservationsToDisplayForm(currentRoom.Reservations.ToList());
+                            DataView.DataSource = source;
+                        }
+
+                        DataView.Columns["Action"].DisplayIndex = 9;
                         DataView.Refresh();
-
-                        CurrentClientID = row;
                     }
                 }
                 isSourceChanged = true;
@@ -250,7 +266,7 @@ namespace Booking_system
 
 
 
-                    object temp = new { ReservationID = r.ReservationID, From = r.FromDate, To = r.ToDate, DateOfCreating = r.DateOfReservationMaking, Status = r.Status, Fee = r.Fee, Rooms = str };
+                    object temp = new { ReservationID = r.ReservationID, From = r.FromDate, To = r.ToDate, DateOfCreating = r.DateOfReservationMaking, Status = r.Status, Fee = r.Fee, Rooms = str, Client=r.User.ID+" "+ r.User.Name+" "+ r.User.Surname };
                     reservationsToDisplay.Add(temp);
                 }
             }
@@ -288,9 +304,40 @@ namespace Booking_system
             {
                 MessageBox.Show("ReservationID has to be an integer.");
             }
-            isSourceChanged = true;
             
 
         }
+
+        private void FindRoom_Click(object sender, EventArgs e)
+        {
+            DatabaseManager dbManager = new DatabaseManager();
+            button = "room";
+            if (Int32.TryParse(DataBox.Text.Trim(), out roomNumber))
+            {
+                isSourceChanged = false;
+                currentRoom = dbManager.FindRoom(roomNumber);
+
+                DataView.Columns["Reservations"].Visible = true;
+                DataView.Columns["Action"].Visible = false;
+
+                source.DataSource = RoomToDisplay(currentRoom);
+                DataView.DataSource = source;
+                DataView.Columns["Reservations"].DisplayIndex = 5;
+                DataView.Refresh();
+            }
+            else
+            {
+                MessageBox.Show("Number of room has to be an integer.");
+            }
+        }
+
+        private List<object> RoomToDisplay(Room room)
+        {
+            List<object> roomToDisplay = new List<object>();
+            object temp = new { RoomID = room.RoomID, Number = room.Number, NumberOfBeds = room.NumberOfBeds, Fee = room.Fee };
+            roomToDisplay.Add(temp);
+            return roomToDisplay;
+        }
+
     }
 }
