@@ -248,6 +248,8 @@ namespace Booking_system
                 
             }
         }
+
+
         
 
         //This method sends an email to the user with confimation of the reservation.
@@ -305,6 +307,8 @@ namespace Booking_system
                 }
             }
         }
+
+
 
         //This method search for users which pass the criteria  given as a one string.
         //It is used when the admin wants to find a given user.
@@ -429,6 +433,19 @@ namespace Booking_system
                 {
                     return null;
                 }
+            }
+        }
+
+        //This adds a new room to the databse.
+
+        public void AddNewRoom(int number, int numberOfBeds, decimal fee)
+        {
+            Room room = new Room() { Number = number, NumberOfBeds = numberOfBeds, Fee = fee };
+            using (Context db = new Context())
+            {
+                db.Rooms.Add(room);
+                db.SaveChanges();
+                MessageBox.Show("Room added succesfully.");
             }
         }
 

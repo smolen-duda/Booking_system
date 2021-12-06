@@ -63,7 +63,35 @@ namespace Booking_system
             }
         }
 
-       
+        public void ChangeBorderColorToRed(Button button)
+        {
+            if (String.IsNullOrEmpty(Text))
+            {
+                BorderColor = Color.Red;
+                button.Enabled = false;
+            }
+            else
+            {
+                BorderColor = Color.Gray;
+
+            }
+        }
+
+        public void ChangeBorderColorToRed(Button button, bool condition)
+        {
+            if (String.IsNullOrEmpty(Text)|| condition)
+            {
+                BorderColor = Color.Red;
+                button.Enabled = false;
+            }
+            else
+            {
+                BorderColor = Color.Gray;
+
+            }
+        }
+
+
     }
 }
 

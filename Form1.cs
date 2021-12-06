@@ -49,7 +49,7 @@ namespace Booking_system
         private void Tester_Click(object sender, EventArgs e)
         {
             ILogable admin = new Administrator() { Name = "Jan", Surname = "Kowalski", ID = "87110302233",
-                                            PhoneNumber = "666222333", Email = "jan.kowalski@mail.com" };
+                                            PhoneNumber = "666222333", Email = "jan.kowalski@mail.com"};
             AdminMenu adminMenu= new AdminMenu(this,admin);
             adminMenu.Show();
             adminMenu.DisableButton();

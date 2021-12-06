@@ -339,5 +339,19 @@ namespace Booking_system
             return roomToDisplay;
         }
 
+        private void AddNewRoom_Click(object sender, EventArgs e)
+        {
+            AddNewRoom newRoom = new AddNewRoom();
+            this.Hide();
+            newRoom.ShowDialog();
+            this.Show();
+        }
+
+        private void MakeReservation_Click(object sender, EventArgs e)
+        {
+            ILogable user = new User() { Email = "", ID = "", Name = "", PhoneNumber = "", Surname = "" };
+            BookingForm bookingForm = new BookingForm(this,user,"admin");
+            bookingForm.ShowDialog();
+        }
     }
 }

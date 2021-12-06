@@ -23,6 +23,7 @@ namespace Booking_system
         private User LoggedUser;
         private List<decimal> prices = new List<decimal>();
         private decimal choosenPrice = 0;
+        private string admin;
 
         public BookingForm(Form form, ILogable user)
         {
@@ -34,6 +35,35 @@ namespace Booking_system
 
             StartDate.Value = DateTime.UtcNow;
             EndDate.Value = StartDate.Value.AddDays(1);
+            admin= "";
+
+            IDBox.Enabled = false;
+
+            this.ReservationPanel.Hide();
+            this.RoomsPanel.Show();
+        }
+
+        public BookingForm(Form form, ILogable user, string str)
+        {
+            InitializeComponent();
+            StartingForm = form;
+            LoggedUser = (User)user;
+
+            disable.Writing += ShouldBeEnabled;
+            admin = str;
+
+            StartDate.Value = DateTime.UtcNow;
+            EndDate.Value = StartDate.Value.AddDays(1);
+
+            NameBox.BorderColor = Color.Red;
+            SurnameBox.BorderColor = Color.Red;
+            EmailBox.BorderColor = Color.Red;
+            PhoneBox.BorderColor = Color.Red;
+            IDBox.BorderColor = Color.Red;
+            Reserve.Enabled = false;
+
+            IDBox.Enabled = true;
+
 
             this.ReservationPanel.Hide();
             this.RoomsPanel.Show();
@@ -222,6 +252,7 @@ namespace Booking_system
 
         }
 
+
         private void NameBox_TextChanged(object sender, EventArgs e)
         {
             IsTextBoxEmpty(NameBox, sender, e);
@@ -234,6 +265,11 @@ namespace Booking_system
             isChanged = true;
         }
 
+        private void IDBox_TextChanged(object sender, EventArgs e)
+        {
+            IsTextBoxEmpty(IDBox, sender, e, admin);
+            isChanged = true;
+        }
 
         private void PhoneBox_TextChanged(object sender, EventArgs e)
         {
@@ -259,11 +295,27 @@ namespace Booking_system
 
         }
 
+
+
         // Cheks if text in the given textbox is "" or null. If yes it disables Reserve button
         // and changes border color to red, if no changes border color to gray.
         private void IsTextBoxEmpty(ColorTextBox textBox, object sender, EventArgs e)
         {
             if (String.IsNullOrEmpty(textBox.Text))
+            {
+                textBox.BorderColor = Color.Red;
+                Reserve.Enabled = false;
+            }
+            else
+            {
+                textBox.BorderColor = Color.Gray;
+                disable.OnWriting(sender, e);
+            }
+        }
+
+        private void IsTextBoxEmpty(ColorTextBox textBox, object sender, EventArgs e, string admin)
+        {
+            if (String.IsNullOrEmpty(textBox.Text)|| textBox.Text.Length!=11)
             {
                 textBox.BorderColor = Color.Red;
                 Reserve.Enabled = false;
@@ -316,9 +368,15 @@ namespace Booking_system
         private void Reserve_Click(object sender, EventArgs e)
         {
             DatabaseManager dbManager = new DatabaseManager();
-            if (isChanged == true)
+            if (isChanged == true && admin=="")
             {
                 dbManager.UpdateUserData(LoggedUser, NameBox.Text, SurnameBox.Text, IDBox.Text, PhoneBox.Text, EmailBox.Text);
+            }
+            else
+            {
+                ILogable user = new User() { Name = NameBox.Text, Surname = SurnameBox.Text, ID = IDBox.Text, PhoneNumber = PhoneBox.Text,
+                    Email = EmailBox.Text };
+                LoggedUser=(User)dbManager.Find(user);
             }
 
             Reservation reservation = new Reservation();
@@ -339,5 +397,6 @@ namespace Booking_system
             RoomsPanel.Hide();
             ReservationPanel.Hide();
         }
+
     }
 }

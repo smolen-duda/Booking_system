@@ -85,57 +85,26 @@ namespace Booking_system
 
         private void IDBox_TextChanged(object sender, EventArgs e)
         {
-            if (String.IsNullOrEmpty(IDBox.Text))
-            {
-                IDBox.BorderColor = Color.Red;
-                SignIn.Enabled = false;
-            }
-            else
-            {
-                IDBox.BorderColor = Color.Gray;
+                IDBox.ChangeBorderColorToRed(SignIn);
                 disable.OnWriting(sender, e);
-            }
+            
         }
         private void IDBox_Click(object sender, EventArgs e)
         {
-            if (String.IsNullOrEmpty(IDBox.Text))
-            {
-                IDBox.BorderColor = Color.Red;
-                SignIn.Enabled = false;
-            }
-            else
-            {
-                IDBox.BorderColor = Color.Gray;
-                disable.OnWriting(sender, e);
-            }
+            IDBox.ChangeBorderColorToRed(SignIn);
+            disable.OnWriting(sender, e);
         }
 
         private void PassBox_TextChanged(object sender, EventArgs e)
         {
-            if (String.IsNullOrEmpty(PassBox.Text))
-            {
-                PassBox.BorderColor = Color.Red;
-                SignIn.Enabled = false;
-            }
-            else
-            {
-                PassBox.BorderColor = Color.Gray;
-                disable.OnWriting(sender, e);
-            }
+            PassBox.ChangeBorderColorToRed(SignIn);
+            disable.OnWriting(sender, e);
         }
 
         private void PassBox_Click(object sender, EventArgs e)
         {
-            if (String.IsNullOrEmpty(PassBox.Text))
-            {
-                PassBox.BorderColor = Color.Red;
-                SignIn.Enabled = false;
-            }
-            else
-            {
-                PassBox.BorderColor = Color.Gray;
-                disable.OnWriting(sender, e);
-            }
+            PassBox.ChangeBorderColorToRed(SignIn);
+            disable.OnWriting(sender, e);
         }
 
 

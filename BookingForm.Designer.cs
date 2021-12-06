@@ -165,6 +165,7 @@ namespace Booking_system
             this.IDBox.Name = "IDBox";
             this.IDBox.Size = new System.Drawing.Size(262, 27);
             this.IDBox.TabIndex = 19;
+            this.IDBox.TextChanged += new System.EventHandler(this.IDBox_TextChanged);
             this.IDBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.IDBox_KeyPress);
             // 
             // SurnameBox

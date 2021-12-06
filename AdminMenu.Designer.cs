@@ -93,6 +93,7 @@ namespace Booking_system
             this.MakeReservation.TabIndex = 5;
             this.MakeReservation.Text = "Make Reservation";
             this.MakeReservation.UseVisualStyleBackColor = true;
+            this.MakeReservation.Click += new System.EventHandler(this.MakeReservation_Click);
             // 
             // AddNewRoom
             // 
@@ -102,6 +103,7 @@ namespace Booking_system
             this.AddNewRoom.TabIndex = 7;
             this.AddNewRoom.Text = "Add New Room";
             this.AddNewRoom.UseVisualStyleBackColor = true;
+            this.AddNewRoom.Click += new System.EventHandler(this.AddNewRoom_Click);
             // 
             // Title
             // 
